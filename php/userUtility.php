@@ -5,7 +5,7 @@ $GLOBALS['last_error'] = "no error detected";
 
 
 function database_connection(){
-	$con = mysqli_connect("localhost","ShinonSaw","zerega1996","progettosaw"); /* TO BE CHANGED ! (USE RIBAUDO'S SERVER PSW AND USER) */
+	$con = mysqli_connect("localhost","ShinonSaw","zerega1996","progettosaw"); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
 	if (mysqli_connect_errno($con)){
 		$GLOBALS['last_error'] =  "Failed to connect to MySQL: " . mysqli_connect_error($con);
 		return false;
