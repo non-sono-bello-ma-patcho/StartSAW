@@ -67,7 +67,9 @@ figcaption {
     margin: auto;
     background: #f3efe0;
     padding: 30px;
-    box-shadow: 3px 3px 6px black;
+    box-shadow: -1px 1px 0 #b1aea3,
+                -4px 4px 0 #b1aea3,
+                -7px 7px 0 #b1aea3;
     border-radius: 10px;
 }
 
@@ -120,4 +122,8 @@ figcaption {
     background: #f4c095;
     display: block;
     position: relative;
+}
+
+svg {
+    position: absolute;
 }
