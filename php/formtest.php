@@ -76,7 +76,7 @@
             <input type="password" name="pw">
         </div>
         <div class="inputfield sub">
-            <input type="submit" value="Sign Up" name="loginb">
+            <input type="submit" value="Log In" name="loginb">
         </div>
     </form>
 </div>
