@@ -134,6 +134,34 @@
             da una realtà che non conosco più
         </pre>
     </div>
+    <div class="customform">
+        <h1>Sign Up</h1>
+        <form action="">
+            <div class="inputfield">
+                <label for="name">Name</label>
+                <input type="text" name="name">
+            </div>
+            <div class="inputfield">
+                <label for="surname">Surname</label>
+                <input type="text" name="surname">
+            </div>
+            <div class="inputfield">
+                <label for="username">Username</label>
+                <input type="text" name="username">
+            </div>
+            <div class="inputfield">
+                <label for="pw">Password</label>
+                <input type="password" name="pw">
+            </div>
+            <div class="inputfield">
+                <label for="pwc">Confirm</label>
+                <input type="password" name="pwc">
+            </div>
+            <div class="inputfield sub">
+                <input type="submit" value="Sign Up">
+            </div>
+        </form>
+    </div>
     <div class="productpreview">
     </div>
     <script src="js/jquery-3.3.1.min.js"></script>

@@ -68,8 +68,8 @@ figcaption {
     background: #f3efe0;
     padding: 30px;
     box-shadow: -1px 1px 0 #b1aea3,
-                -4px 4px 0 #b1aea3,
-                -7px 7px 0 #b1aea3;
+    -4px 4px 0 #b1aea3,
+    -7px 7px 0 #b1aea3;
     border-radius: 10px;
 }
 
@@ -80,6 +80,83 @@ figcaption {
 .descriptiondiv h1 {
     -moz-transform:skew(0deg, 3deg);
     margin-bottom: 0;
+}
+
+.customform {
+    -moz-transform: skewY(3deg);
+    font-family: 'Catamaran', sans-serif;
+    color: #aca686;
+    font-size: 1rem;
+    width: 40%;
+    margin: auto;
+    margin-top: 50px    ;
+    background: #f3efe0;
+    padding: 30px;
+    padding-top: 50px;
+    box-shadow: -1px 1px 0 #b1aea3,
+    -4px 4px 0 #b1aea3,
+    -7px 7px 0 #b1aea3;
+    border-radius: 10px;
+}
+
+.customform h1 {
+    -moz-transform: skew(3deg,-3deg);
+    font-family: 'Concert One', cursive;
+    font-size: 4.25rem;
+    color: #f1db4b;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    text-shadow: -1px 1px 0 #b0a037,
+    -2px 2px 0 #b0a037,
+    -3px 3px 0 #b0a037;
+}
+
+.inputfield {
+    padding: 5px;
+    display: flex;
+    -moz-transform: skew(-3deg, -3deg);
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+    box-shadow: -1px 1px 0 #b1aea3,
+                -2px 2px 0 #b1aea3,
+                -3px 3px 0 #b1aea3;
+    border-radius: 10px;
+}
+
+.inputfield label {
+    display: inline-block;
+    text-align: right;
+    width: 10%;
+    margin: auto;
+    margin-left: 10px;
+    margin-right: 40px;
+}
+
+.inputfield input {
+    float: left;
+    width: 50%;
+    border: none;
+    background: #f3efe0;
+
+}
+
+.inputfield.sub {
+    background: #0a2463;
+    width: 20%;
+    box-shadow: -1px 1px 0 #081b49,
+    -2px 2px 0 #081b49,
+    -3px 3px 0 #081b49;
+    border-radius: 10px;
+}
+
+.inputfield input[type=submit] {
+    background: #0a2463;
+    margin: auto;
 }
 
 .productpreview {
