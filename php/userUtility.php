@@ -1,13 +1,13 @@
 <?php
 
 // 	TO BE DELETED AFTER DEBUGGING //
-$GLOBALS['last_error'] = "no error detected";
+$_SESSION['last_error'] = "no error detected";
 
 
 function database_connection(){
 	$con = mysqli_connect("localhost","ShinonSaw","zerega1996","progettosaw"); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
 	if (mysqli_connect_errno($con)){
-		$GLOBALS['last_error'] =  "Failed to connect to MySQL: " . mysqli_connect_error($con);
+		$_SESSION['last_error'] =  "Failed to connect to MySQL: " . mysqli_connect_error($con);
 		return false;
 	}
 	else return $con;
@@ -23,7 +23,7 @@ function getName(){
 		$query = "SELECT name FROM users WHERE username = \"".$_COOKIE['user']."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -38,7 +38,7 @@ function getSurname(){
 		$query = "SELECT surname FROM users WHERE username = \"".$_COOKIE['user']."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -53,7 +53,7 @@ function getMail(){
 		$query = "SELECT email FROM users WHERE username = \"".$_COOKIE['user']."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -68,7 +68,7 @@ function getPswd(){
 		$query = "SELECT password FROM users WHERE username = \"".$_COOKIE['user']."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -83,7 +83,7 @@ function getImg(){
 		$query = "SELECT img FROM users WHERE username = \"".$_COOKIE['user']."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -105,7 +105,7 @@ function  setName($newName){
 		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET name = \"".$newName."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		else return true;
@@ -119,7 +119,7 @@ function  setSurname($newSurname){
 		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET surname = \"".$newSurname."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		else return true;
@@ -133,7 +133,7 @@ function  setMail($newMail){
 		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET email = \"".$newMail."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		else return true;
@@ -147,7 +147,7 @@ function  setPswd($newPswd){
 		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET password = \"".$newPswd."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		else return true;
@@ -161,7 +161,7 @@ function  setUser($newUser){
 		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET username = \"".$newUser."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$GLOBALS['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
 			return "Error 501";
 		}
 		else{

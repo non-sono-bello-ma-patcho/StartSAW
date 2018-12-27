@@ -66,14 +66,15 @@
 </div>
 <div class="customform">
     <h1>Log In!</h1>
-    <form action="">
+    <form action="sign_in.php" method="post">
+        <input type="hidden" name="loginform">
         <div class="inputfield">
             <label for="username">Username</label>
             <input type="text" name="username">
         </div>
         <div class="inputfield">
             <label for="pw">Password</label>
-            <input type="password" name="pw">
+            <input type="password" name="pswd">
         </div>
         <div class="inputfield sub">
             <input type="submit" value="Log In" name="loginb">
