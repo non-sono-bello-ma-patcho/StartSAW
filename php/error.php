@@ -8,7 +8,8 @@
 			<label style="font-size:30; color: black;">
 				<?php 
 					require "userUtility.php";
-					echo $GLOBALS['last_error'];
+					session_start();
+					echo $_SESSION['last_error'];
 					?>
 			</label>
 		</div>
