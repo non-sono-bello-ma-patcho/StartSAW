@@ -36,50 +36,10 @@
         </blockquote>
     </div>
 </div>
-<div class="customform">
-    <h1>Sign Up!</h1>
-    <form action="">
-        <div class="inputfield">
-            <label for="name">Name</label>
-            <input type="text" name="name">
-        </div>
-        <div class="inputfield">
-            <label for="surname">Surname</label>
-            <input type="text" name="surname">
-        </div>
-        <div class="inputfield">
-            <label for="username">Username</label>
-            <input type="text" name="username">
-        </div>
-        <div class="inputfield">
-            <label for="pw">Password</label>
-            <input type="password" name="pw">
-        </div>
-        <div class="inputfield">
-            <label for="pwc">Confirm</label>
-            <input type="password" name="pwc">
-        </div>
-        <div class="inputfield sub">
-            <input type="submit" value="Sign Up" name="signupb">
-        </div>
-    </form>
-</div>
-<div class="customform">
-    <h1>Log In!</h1>
-    <form action="">
-        <div class="inputfield">
-            <label for="username">Username</label>
-            <input type="text" name="username">
-        </div>
-        <div class="inputfield">
-            <label for="pw">Password</label>
-            <input type="password" name="pw">
-        </div>
-        <div class="inputfield sub">
-            <input type="submit" value="Log In" name="loginb">
-        </div>
-    </form>
-</div>
+<?php
+    require '../templates/signupform.php';
+    require '../templates/loginform.php';
+?>
 </div>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/main.js"></script>

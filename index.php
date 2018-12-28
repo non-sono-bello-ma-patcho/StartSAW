@@ -13,17 +13,21 @@
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <title>Phibonachos</title>
         <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="apple-touch-icon" href="favicon.png">
-        <!-- Place favicon.ico in the root directory -->
-
         <link rel="stylesheet" href="css/main.css">
         <link href="https://fonts.googleapis.com/css?family=Catamaran:300|Concert+One" rel="stylesheet">
     </head>
 
 <body id>
     <div class="global-header">
+        <div class="buttondiv">
+            <input type="button" value="signup" onclick="loadDiv('templates/signupform.php', 'modalviewer'); showform()">
+            <input type="button" value="login">
+        </div>
+        <div class="modal" id="modalviewer">
+        </div>
         <div class="banner">
             <div class="titlediv main">
                 <h1>Herschel</h1>
@@ -36,7 +40,7 @@
             </blockquote>
         </div>
     </div>
-    <svg  viewBox="0 0 100% 500px">
+    <svg  viewBox="0 0 1802 500" id="descbg">
 
         <!-- Deepest comet level -->
         <g transform="translate(400, 400), rotate(135), scale(3)">
@@ -101,18 +105,7 @@
                 <path d="M0,0 L0,27 C0,30.7 5,30.7 5,27  L5,18 C5,14.3 10,14.3 10,18  L10,26 C10,29.7 15,29.7 15,26  L15,11 C15,7.3 20,7.3 20,11  L20,24 C20,27.7 25,27.7 25,24  L25,12 C25,8.3 30,8.3 30,12  L30,21 C30,24.7 35,24.7 35,21  L35,0 Z" fill="#d6fff6"></path>
                 <path d="M35,0 C35,-26.25 0,-26.25 0,0 Z" fill="#d6fff6"></path>
             </g>
-            <!--
-            <g transform="translate(1500, 10), rotate(35), scale(1)">
-                <path d="M0,0 L0,196 C0,199.7 5,199.7 5,196  L5,128 C5,124.3 10,124.3 10,128  L10,185 C10,188.7 15,188.7 15,185  L15,171 C15,167.3 20,167.3 20,171  L20,199 C20,202.7 25,202.7 25,199  L25,144 C25,140.3 30,140.3 30,144  L30,196 C30,199.7 35,199.7 35,196  L35,0 Z" fill="#424874"></path>
-                <path d="M0,0 L0,84 C0,87.7 5,87.7 5,84  L5,69 C5,65.3 10,65.3 10,69  L10,83 C10,86.7 15,86.7 15,83  L15,76 C15,72.3 20,72.3 20,76  L20,93 C20,96.7 25,96.7 25,93  L25,47 C25,43.3 30,43.3 30,47  L30,86 C30,89.7 35,89.7 35,86  L35,0 Z" fill="#ffd25a"></path>
-                <path d="M0,0 L0,41 C0,44.7 5,44.7 5,41  L5,26 C5,22.3 10,22.3 10,26  L10,52 C10,55.7 15,55.7 15,52  L15,37 C15,33.3 20,33.3 20,37  L20,58 C20,61.7 25,61.7 25,58  L25,25 C25,21.3 30,21.3 30,25  L30,57 C30,60.7 35,60.7 35,57  L35,0 Z" fill="#fff05a"></path>
-                <path d="M0,0 L0,27 C0,30.7 5,30.7 5,27  L5,18 C5,14.3 10,14.3 10,18  L10,26 C10,29.7 15,29.7 15,26  L15,19 C15,15.3 20,15.3 20,19  L20,20 C20,23.7 25,23.7 25,20  L25,11 C25,7.3 30,7.3 30,11  L30,25 C30,28.7 35,28.7 35,25  L35,0 Z" fill="#d6fff6"></path>
-                <path d="M35,0 C35,-26.25 0,-26.25 0,0 Z" fill="#d6fff6"></path>
-
-            </g>
-            -->
     </svg>
-
     <div class="descriptiondiv">
         <h1>Chi siamo</h1>
         <p>Herschel è la prima piattaforma che ti permette di prenotare le tue vacanze extra terrestri!</p>
@@ -134,35 +127,32 @@
             da una realtà che non conosco più
         </pre>
     </div>
-    <div class="customform">
-        <h1>Sign Up</h1>
-        <form action="">
-            <div class="inputfield">
-                <label for="name">Name</label>
-                <input type="text" name="name">
-            </div>
-            <div class="inputfield">
-                <label for="surname">Surname</label>
-                <input type="text" name="surname">
-            </div>
-            <div class="inputfield">
-                <label for="username">Username</label>
-                <input type="text" name="username">
-            </div>
-            <div class="inputfield">
-                <label for="pw">Password</label>
-                <input type="password" name="pw">
-            </div>
-            <div class="inputfield">
-                <label for="pwc">Confirm</label>
-                <input type="password" name="pwc">
-            </div>
-            <div class="inputfield sub">
-                <input type="submit" value="Sign Up">
-            </div>
-        </form>
-    </div>
+    <svg  viewBox="0 0 1800 750">
+        <g transform="scale(1.5, -1.5) translate(-10,-530)">
+            <path d="M0,0 L0,442 C0,479 50,479 50,442  L50,297 C50,260 100,260 100,297  L100,458 C100,495 150,495 150,458  L150,250 C150,213 200,213 200,250  L200,464 C200,501 250,501 250,464  L250,227 C250,190 300,190 300,227  L300,289 C300,326 350,326 350,289  L350,205 C350,168 400,168 400,205  L400,216 C400,253 450,253 450,216  L450,189 C450,152 500,152 500,189  L500,265 C500,302 550,302 550,265  L550,200 C550,163 600,163 600,200  L600,374 C600,411 650,411 650,374  L650,241 C650,204 700,204 700,241  L700,236 C700,273 750,273 750,236  L750,172 C750,135 800,135 800,172  L800,346 C800,383 850,383 850,346  L850,277 C850,240 900,240 900,277  L900,284 C900,321 950,321 950,284  L950,202 C950,165 1000,165 1000,202  L1000,213 C1000,250 1050,250 1050,213  L1050,157 C1050,120 1100,120 1100,157  L1100,317 C1100,354 1150,354 1150,317  L1150,204 C1150,167 1200,167 1200,204  L1200,447 C1200,484 1250,484 1250,447  L1250,0 Z" fill="#ded6d6"></path>
+            </path>
+        </g>
+        <g transform="scale(1.5, -1.5) translate(0,-528)">
+            <path d="M0,0 L0,442 C0,479 50,479 50,442  L50,297 C50,260 100,260 100,297  L100,458 C100,495 150,495 150,458  L150,250 C150,213 200,213 200,250  L200,464 C200,501 250,501 250,464  L250,227 C250,190 300,190 300,227  L300,289 C300,326 350,326 350,289  L350,205 C350,168 400,168 400,205  L400,216 C400,253 450,253 450,216  L450,189 C450,152 500,152 500,189  L500,265 C500,302 550,302 550,265  L550,200 C550,163 600,163 600,200  L600,374 C600,411 650,411 650,374  L650,241 C650,204 700,204 700,241  L700,236 C700,273 750,273 750,236  L750,172 C750,135 800,135 800,172  L800,346 C800,383 850,383 850,346  L850,277 C850,240 900,240 900,277  L900,284 C900,321 950,321 950,284  L950,202 C950,165 1000,165 1000,202  L1000,213 C1000,250 1050,250 1050,213  L1050,157 C1050,120 1100,120 1100,157  L1100,317 C1100,354 1150,354 1150,317  L1150,204 C1150,167 1200,167 1200,204  L1200,447 C1200,484 1250,484 1250,447  L1250,0 Z" fill="#f9e7e7"></path>
+            </path>
+        </g>
+        <g transform="scale(25) translate(10,20)">
+            <path d="M9,5 L9,10 L17,10 L17,5 Z" fill="#6d8ea0"></path>
+            <path d="M0,0 L0,10 L19,10 L19,7 Q19,6 18,6 L13,6 Q12,6 12,7 L8,7 L8,0 Z" fill="#ded6d6"></path>
+            <path d="M2,0 L6,0 L6,10 L2,10 Z M12,10 L12.5,10 L12.5,7 Q12.5,6.5 13,6.5 L14,6.5 L14,7 L17,7 L 17,6.5 L18,6.5 Q18.5,6.5 18.5,7 L18.5,10 L19,10 L19,7 Q19,6 18,6 L13,6 Q12,6 12,7" fill="#182825"></path>
+            <path d="M18,4 Q18,6 20,6" fill="#eff9f0"></path>
+            <circle r="1" cx="4" cy="2" fill="#016fb9"></circle>
+            <path d="M3,2.5 C3,3 5.5,1.5 5,1.5 C5.4,1.6 3.1,2.9 3,2.5 " stroke="red" fill="transparent"></path>
+        </g>
+    </svg>
     <div class="productpreview">
+        <div class="singleitem"></div>
+        <div class="singleitem"></div>
+        <div class="singleitem"></div>
+        <div class="singleitem"></div>
+        <div class="singleitem"></div>
+        <div class="singleitem"></div>
+
     </div>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/main.js"></script>

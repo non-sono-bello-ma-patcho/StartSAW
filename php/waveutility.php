@@ -19,9 +19,9 @@ M0,20
                             Z
 */
 $value = trim($_REQUEST["q"]);
-$xspan=5;
-$maxxspan = 75;
-$yspan=3.7;
+$xspan=50;
+$maxxspan = 5000;
+$yspan=37;
 $lastx=0;
 $lasty=0;
 $maxy = $lasty;
@@ -42,7 +42,7 @@ $lastx = $lastx+$xspan;
 function curve($min, $max, $rev){
     global $lastx, $lasty, $xspan, $yspan;
 
-    $lasty = $rev>0? rand($min, $max) : rand($max-$min, $min);
+    $lasty = $rev>0? rand($min, $max) : rand($min, $lasty-($yspan+30));
 
     echo 'L', $lastx, ',', $lasty, ' ';
     // creo la prima curva
@@ -55,7 +55,7 @@ function printlayer($min, $height){
     $lastx = 0;
     $lasty = 0;
     echo 'M', $lastx, ',', $lasty, ' ';
-    for ($i=0; $i<7; $i++) {
+    for ($i=0; $i<25; $i++) {
         curve($min, $height, $i % 2 === 0 ? 1 : -1);
         echo ' ';
     }
@@ -80,12 +80,14 @@ function printcap(){
 </head>
 <body background="#001021">
 <svg viewBox="0 0 1802 1533">
-    <g transform="scale(2), translate(100,100)">
-        <path d="<?php printlayer(180, 200) ?>" fill="#424874"></path>
+    <g transform="scale(0.5) translate(100,2000) rotate(270)">
+        <path d="<?php printlayer(200, 500) ?>" fill="#f3efe0"></path>
+        <?php /*
         <path d="<?php printlayer(80, 120) ?>" fill="#ffd25a"></path>
         <path d="<?php printlayer(40, 60) ?>" fill="#fff05a"></path>
         <path d="<?php printlayer(20, 30) ?>" fill="#d6fff6"></path>
         <path d="<?php printcap() ?>" fill="#d6fff6"></path>
+ */?>
     </g>
 </svg>
 </body>
