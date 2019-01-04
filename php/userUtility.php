@@ -1,22 +1,11 @@
 <?php
 
-// 	TO BE DELETED AFTER DEBUGGING //
-$_SESSION['last_error'] = "no error detected";
-
-
-function database_connection(){
-	$con = mysqli_connect("localhost","ShinonSaw","zerega1996","progettosaw"); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
-	if (mysqli_connect_errno($con)){
-		$_SESSION['last_error'] =  "Failed to connect to MySQL: " . mysqli_connect_error($con);
-		return false;
-	}
-	else return $con;
-}
+require "databaseUtility.php";
 
 
 /* GETTER */
 
-function getName(){
+function getUserName(){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
@@ -24,6 +13,8 @@ function getName(){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -31,7 +22,7 @@ function getName(){
 	}
 }
 
-function getSurname(){
+function getUserSurname(){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
@@ -39,6 +30,8 @@ function getSurname(){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -46,7 +39,7 @@ function getSurname(){
 	}
 }
 
-function getMail(){
+function getUserMail(){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
@@ -54,6 +47,8 @@ function getMail(){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -61,7 +56,7 @@ function getMail(){
 	}
 }
 
-function getPswd(){
+function getUserPswd(){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
@@ -69,6 +64,8 @@ function getPswd(){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -76,7 +73,7 @@ function getPswd(){
 	}
 }
 
-function getImg(){
+function getUserImg(){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
@@ -84,6 +81,8 @@ function getImg(){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
@@ -98,7 +97,7 @@ function getImg(){
 /* SETTER */
 
 
-function  setName($newName){
+function  setUserName($newName){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
@@ -106,13 +105,15 @@ function  setName($newName){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		else return true;
 	}
 }
 
-function  setSurname($newSurname){
+function  setUserSurname($newSurname){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
@@ -120,13 +121,15 @@ function  setSurname($newSurname){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		else return true;
 	}
 }
 
-function  setMail($newMail){
+function  setUserMail($newMail){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
@@ -134,13 +137,15 @@ function  setMail($newMail){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		else return true;
 	}
 }
 
-function  setPswd($newPswd){
+function  setUserPswd($newPswd){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
@@ -148,13 +153,15 @@ function  setPswd($newPswd){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		else return true;
 	}
 }
 
-function  setUser($newUser){
+function  setUserUsername($newUser){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
@@ -162,6 +169,8 @@ function  setUser($newUser){
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			if(defined('DEBUG'))
+				header("Location: error.php");
 			return "Error 501";
 		}
 		else{
