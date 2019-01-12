@@ -2,14 +2,20 @@
 
 require "databaseUtility.php";
 
+ 
+//TODO FARE UNA CHEAT SHEET PER ANDREA
+//TODO REINDIRIZZAMENTI VARI SU ERROR.PHP A SECONDA DELLA DEFINIZIONE DI DEBUG
+
+
+
 
 /* GETTER */
 
-function getUserName(){
+function getProductName($product_code){
 	if(($con= database_connection()) === false)
-		return "Error 500";
+		return "Error 500"; // last error è già settato appropriamente dentro il metodo database_connection;
 	else{
-		$query = "SELECT name FROM users WHERE username = \"".$_COOKIE['user']."\";";
+		$query = "SELECT name FROM products WHERE code = \"".$product_code."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
@@ -22,11 +28,11 @@ function getUserName(){
 	}
 }
 
-function getUserSurname(){
+function getProductDescription($product_code){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
-		$query = "SELECT surname FROM users WHERE username = \"".$_COOKIE['user']."\";";
+		$query = "SELECT description FROM products WHERE code = \"".$product_code."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
@@ -35,15 +41,15 @@ function getUserSurname(){
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
-		return $row['surname'];
+		return $row['description'];
 	}
 }
 
-function getUserMail(){
+function getProductPrice($product_code){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
-		$query = "SELECT email FROM users WHERE username = \"".$_COOKIE['user']."\";";
+		$query = "SELECT price FROM products WHERE code = \"".$product_code."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
@@ -52,32 +58,16 @@ function getUserMail(){
 			return "Error 501";
 		}
 		$row = mysqli_fetch_assoc($res);
-		return $row['email'];
+		return $row['price'];
 	}
 }
 
-function getUserPswd(){
-	if(($con= database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "SELECT password FROM users WHERE username = \"".$_COOKIE['user']."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		$row = mysqli_fetch_assoc($res);
-		return $row['password'];
-	}
-}
 
-function getUserImg(){
+function getProductImg($product_code){
 	if(($con= database_connection()) === false)
 		return "Error 500";
 	else{
-		$query = "SELECT img FROM users WHERE username = \"".$_COOKIE['user']."\";";
+		$query = "SELECT img FROM products WHERE code = \"".$product_code."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
@@ -87,21 +77,19 @@ function getUserImg(){
 		}
 		$row = mysqli_fetch_assoc($res);
 
-		return "<img  width=\"100\" height= \"100\" src=\"".$row['img']."\">"; /* change the img's width or height if you want dude */
+		return "<img  width=\"100\" height= \"100\" src=\"".$row['img']."\">";
 	}
 
 }
-
-
 
 /* SETTER */
 
 
-function  setUserName($newName){
+function  setproductName($product_code,$newName){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
-		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET name = \"".$newName."\";";
+		$query = "UPDATE products WHERE code = \"".$product_code."\" SET name = \"".$newName."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
@@ -113,11 +101,11 @@ function  setUserName($newName){
 	}
 }
 
-function  setUserSurname($newSurname){
+function  setproductDescription($product_code,$newDescription){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
-		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET surname = \"".$newSurname."\";";
+		$query = "UPDATE products WHERE code = \"".$product_code."\" SET description = \"".$newDescription."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
@@ -129,11 +117,11 @@ function  setUserSurname($newSurname){
 	}
 }
 
-function  setUserMail($newMail){
+function  setproductPrice($product_code,$newPrice){
 	if(($con = database_connection()) === false)
 		return "Error 500";
 	else{
-		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET email = \"".$newMail."\";";
+		$query = "UPDATE products WHERE code = \"".$product_code."\" SET price = \"".$newPrice."\";";
 		$res = mysqli_query($con,$query);
 		if(!$res){
 			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
@@ -145,38 +133,24 @@ function  setUserMail($newMail){
 	}
 }
 
-function  setUserPswd($newPswd){
-	if(($con = database_connection()) === false)
-		return "Error 500";
+
+/* NEW ITEM INSERTION */
+
+function insertNewProduct($code,$name,$description,$price,$img_path){
+	if(($con= database_connection()) === false){
+		return false;
+	}
 	else{
-		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET password = \"".$newPswd."\";";
+		$query = "INSERT INTO products VALUES(\"".$code."\",\"".$name."\",\"".$description."\",\"".
+			$price."\",\"".$img_path."\"";
 		$res = mysqli_query($con,$query);
 		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+			$_SESSION['last_error'] = " Error 501: Failed to execute the query: ".$query.PHP_EOL;
 			if(defined('DEBUG'))
 				header("Location: error.php");
-			return "Error 501";
+			return false;
 		}
 		else return true;
-	}
-}
-
-function  setUserUsername($newUser){
-	if(($con = database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "UPDATE user WHERE username = \"".$_COOKIE['user']."\" SET username = \"".$newUser."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		else{
-			setcookie("user",$newUser,time() + (3600), "/"); /* cookie user updated */
-			return true;
-		}
 	}
 }
 

@@ -4,7 +4,6 @@ require "userUtility.php";
 
 function sign_in(){
 	if(($con= database_connection()) === false){
-		$_SESSION['last_error'] = " Error 500: Connection to database failed";
 		return "Error 500";
 	}
 	else{
@@ -27,8 +26,11 @@ function sign_in(){
 session_start();
 if(isset($_POST['loginform'])){
 	$status = sign_in();
-	if($status == "Error 500" || $status == "Error 501")
+	if($status == "Error 500" || $status == "Error 501"){
+		if(!defined('DEBUG'))
+			$_SESSION['last_error'] = "Something went wrong, an error occured,please retry later or send us a message";
 		header("Location: error.php");
+	}
 	else if($status == "Error 502")
 		header("Location: ../index.php"); /* se i cookie non sono settati significa che ha sbagliato la password */
 	else{

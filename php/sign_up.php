@@ -4,7 +4,6 @@ require "userUtility.php";
 
 function sign_up(){
 	if(($con= database_connection()) === false){
-		$_SESSION['last_error'] = " Error 500: Connection to database failed";
 		return false;
 	}
 	else{
@@ -21,8 +20,11 @@ function sign_up(){
 
 session_start();
 if(isset($_POST['signupform'])){
-	if(!sign_up())
+	if(!sign_up()){
+		if(!defined('DEBUG'))
+			$_SESSION['last_error'] = "Something went wrong, an error occured,please retry later or send us a message";
 		header("Location: error.php");
+	}
 	else{
 		setcookie("user", $_REQUEST['username'], time() + (3600), "/");
 		/* 	OTHER COOKIES TO BE SET START*/
@@ -35,8 +37,8 @@ if(isset($_POST['signupform'])){
 	}
 }
 else{
- $_SESSION['last_error'] = "the signup form is  not set";
- header("Location: error.php");
+ 	$_SESSION['last_error'] = "the signup form is  not set";
+	 header("Location: error.php");
 }
 	
 
