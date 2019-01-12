@@ -7,7 +7,7 @@
  */
 ?>
 <div class="customform">
-    <input type="button" value="&times" class="closebtn">
+    <input type="button" value="&times" class="closebtn" onclick="hideform()">
     <h1>Log In!</h1>
     <form action="">
         <div class="inputfield">
