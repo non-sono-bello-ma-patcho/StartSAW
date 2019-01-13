@@ -25,7 +25,7 @@
 <body id>
 <div class="global-header">
     <div class="banner">
-        <div class="titlediv logishtitle">
+        <div class="titlediv main">
             <h1>Form Test!</h1>
         </div>
     </div>

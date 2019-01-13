@@ -1,142 +1,53 @@
 <?php
 
 require "databaseUtility.php";
-
+session_start();
  
-//TODO FARE UNA CHEAT SHEET PER ANDREA
-//TODO REINDIRIZZAMENTI VARI SU ERROR.PHP A SECONDA DELLA DEFINIZIONE DI DEBUG
-
-
-
 
 /* GETTER */
 
 function getProductName($product_code){
-	if(($con= database_connection()) === false)
-		return "Error 500"; // last error è già settato appropriamente dentro il metodo database_connection;
-	else{
-		$query = "SELECT name FROM products WHERE code = \"".$product_code."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		$row = mysqli_fetch_assoc($res);
-		return $row['name'];
-	}
+	return get_information("products","name","code",$product_code);
 }
 
 function getProductDescription($product_code){
-	if(($con= database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "SELECT description FROM products WHERE code = \"".$product_code."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		$row = mysqli_fetch_assoc($res);
-		return $row['description'];
-	}
+	return get_information("products","description","code",$product_code);
 }
 
 function getProductPrice($product_code){
-	if(($con= database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "SELECT price FROM products WHERE code = \"".$product_code."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		$row = mysqli_fetch_assoc($res);
-		return $row['price'];
-	}
+	return get_information("products","price","code",$product_code);
 }
 
 
-function getProductImg($product_code){
-	if(($con= database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "SELECT img FROM products WHERE code = \"".$product_code."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		$row = mysqli_fetch_assoc($res);
-
-		return "<img  width=\"100\" height= \"100\" src=\"".$row['img']."\">";
-	}
-
+function getProductImg($product_code,$width,$height){
+	$temp = get_information("products","img","code",$product_code);
+	return "<img  width=\"".$width."\" height= \"".$height."\" src=\"".$temp."\">";
 }
 
 /* SETTER */
 
-
-function  setproductName($product_code,$newName){
-	if(($con = database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "UPDATE products WHERE code = \"".$product_code."\" SET name = \"".$newName."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		else return true;
-	}
+$table, $columnKey, $key, $columToBeSet, $newValue
+function  setProductName($product_code,$newName){
+	return set_information("products","code",$product_code, "name",$newName);
 }
 
-function  setproductDescription($product_code,$newDescription){
-	if(($con = database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "UPDATE products WHERE code = \"".$product_code."\" SET description = \"".$newDescription."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		else return true;
-	}
+function  setProductDescription($product_code,$newDescription){
+	return set_information("products","code",$product_code, "description",$newDescription);
 }
 
-function  setproductPrice($product_code,$newPrice){
-	if(($con = database_connection()) === false)
-		return "Error 500";
-	else{
-		$query = "UPDATE products WHERE code = \"".$product_code."\" SET price = \"".$newPrice."\";";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return "Error 501";
-		}
-		else return true;
-	}
+function  setProductPrice($product_code,$newPrice){
+	return set_information("products","code",$product_code, "price",$newPrice);
 }
 
 
 /* NEW ITEM INSERTION */
 
 function insertNewProduct($code,$name,$description,$price,$img_path){
+	row_insertion("products", array($code,$name,$description,$price,$img_path));
+
+
+
+/*
 	if(($con= database_connection()) === false){
 		return false;
 	}
@@ -152,6 +63,7 @@ function insertNewProduct($code,$name,$description,$price,$img_path){
 		}
 		else return true;
 	}
+	*/
 }
 
 
