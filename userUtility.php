@@ -5,24 +5,24 @@ session_start();
 
 /* GETTER */
 
-function getUserName(){
-	return get_information("users","name","username",$_SESSION['id']);
+function getUserName($username){
+	return get_information("users","name","username",trim($username));
 }
 
-function getUserSurname(){
-	return get_information("users","surname","username",$_SESSION['id']);
+function getUserSurname($username){
+	return get_information("users","surname","username",trim($username));
 }
 
-function getUserMail(){
-	return get_information("users","email","username",$_SESSION['id']);
+function getUserMail($username){
+	return get_information("users","email","username",trim($username));
 }
 
-function getUserPswd(){
-	return get_information("users","password","username",$_SESSION['id']);
+function getUserPswd($username){
+	return get_information("users","pswd","username",trim($username));
 }
 
-function getUserImg($width, $height){
-	$temp = get_information("users","img","username",$_SESSION['id']);
+function getUserImg($width, $height,$username){
+	$temp = get_information("users","img","username",trim($username));
 	return "<img  width=\"".$width."\" height= \"".$height."\" src=\"".$temp."\">";
 }
 
@@ -31,35 +31,40 @@ function getUserImg($width, $height){
 /* SETTER */
 
 
-function  setUserName($newName){
-	return set_information("users","username", $_SESSION['id'], "name",$newName);
+function  setUserName($newName,$username){
+	set_information("users","username", trim($username), "name",trim($newName));
 }
 
-function  setUserSurname($newSurname){
-	return set_information("users","username", $_SESSION['id'], "surname",$newSurname);
+function  setUserSurname($newSurname,$username){
+	set_information("users","username", trim($username), "surname",trim($newSurname));
 }
 
-function  setUserMail($newMail){
-	return set_information("users","username", $_SESSION['id'], "email",$newMail);
+function  setUserMail($newMail,$username){
+	set_information("users","username", trim($username), "email",trim($newMail));
 }
 
-function  setUserPswd($newPswd){
-	return set_information("users","username", $_SESSION['id'], "password",$newPswd);
+function  setUserPswd($newPswd,$username){
+	set_information("users","username", trim($username), "pswd",trim($newPswd));
 }
 
-function  setUserUsername($newUser){
-	set_information("users","username", $_SESSION['id'], "username",$newUser);
-	setcookie("user",$newUser,time() + (3600), "/");
-	$_SESSION['id'] = $newUser;
-	return true;
+function  setUserUsername($newUser,$username){
+	set_information("users","username", trim($username), "username",trim($newUser));
+	setcookie("user",trim($newUser),time() + (3600), "/");
+	$_SESSION['id'] = trim($newUser);
 }
 
 function insertNewUser($name,$surname,$username,$email,$password,$img){
 	row_insertion("users", array(trim($name),trim($surname),trim($username),trim($email),trim($password),trim($img)));
 }
-/*
-function isAdmin(){
+
+function existingUser($username){
+    if(is_null(get_information("users","username","username",trim($username))))
+		return false;
+	else return true;
 }
-*/
+
+function isAdmin($username){
+	return get_information("users","admin","username",trim($username));
+}
 
 ?>

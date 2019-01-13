@@ -22,7 +22,8 @@ function database_connection(){
 
 function get_information($table, $column, $columnKey, $key){
 	$con = database_connection();
-	$query = "SELECT".$column." FROM ".$table." WHERE ".$columnKey." = ".$key.";";
+	$query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey." = \"".$key."\";";
+	$res = mysqli_query($con,$query);
 	if(!$res){
 		if(defined('DEBUG') || ($_SESSION['admin'] == true))
 			$_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
@@ -35,8 +36,8 @@ function get_information($table, $column, $columnKey, $key){
 }
 
 
-function set_information($table, $columnKey, $key, $columToBeSet, $newValue){
-	$con = database_connection());
+function set_information($table, $columnKey, $key, $columnToBeSet, $newValue){
+	$con = database_connection();
 	$query = "UPDATE ".$table." WHERE ".$columnKey = $key." SET ".$columnToBeSet." = ".$newValue.";";
 	$res = mysqli_query($con,$query);
 	if(!$res){
@@ -66,7 +67,6 @@ function row_insertion($table, $toBeInsert){
 		exit;
 	}
 }
-
 
 
 

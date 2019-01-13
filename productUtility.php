@@ -26,7 +26,7 @@ function getProductImg($product_code,$width,$height){
 
 /* SETTER */
 
-$table, $columnKey, $key, $columToBeSet, $newValue
+
 function  setProductName($product_code,$newName){
 	return set_information("products","code",$product_code, "name",$newName);
 }
@@ -43,27 +43,7 @@ function  setProductPrice($product_code,$newPrice){
 /* NEW ITEM INSERTION */
 
 function insertNewProduct($code,$name,$description,$price,$img_path){
-	row_insertion("products", array($code,$name,$description,$price,$img_path));
-
-
-
-/*
-	if(($con= database_connection()) === false){
-		return false;
-	}
-	else{
-		$query = "INSERT INTO products VALUES(\"".$code."\",\"".$name."\",\"".$description."\",\"".
-			$price."\",\"".$img_path."\"";
-		$res = mysqli_query($con,$query);
-		if(!$res){
-			$_SESSION['last_error'] = " Error 501: Failed to execute the query: ".$query.PHP_EOL;
-			if(defined('DEBUG'))
-				header("Location: error.php");
-			return false;
-		}
-		else return true;
-	}
-	*/
+	row_insertion("products", array(trim($code),trim($name),trim($description),trim($price),trim($img_path)));
 }
 
 
