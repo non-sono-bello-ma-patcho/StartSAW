@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+/*session_start();*/
 /*  for debug use only */
 define('DEBUG', 'debug'); //comment the line before the commercial use!!
 

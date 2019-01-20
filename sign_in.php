@@ -1,11 +1,12 @@
 <?php
 
 require "userUtility.php";
+$source = include("../config.php");
 session_start();
 
 function sign_in(){
-	if(existingUser($_REQUEST['user'])){
-		if(trim(getUserPswd($_REQUEST['user'])) !== trim(sha1($_REQUEST['pswd']))){
+	if(existingUser($_REQUEST['username'])){
+		if(getUserPswd($_REQUEST['username']) !== sha1(trim($_REQUEST['pswd']))){
 		    return false;
 		}
 		else return true;
@@ -18,17 +19,18 @@ function sign_in(){
 if(isset($_POST['loginform'])) {
     if(sign_in()) {
         setcookie("user", $_REQUEST['user'], time() + (3600), "/");
-        $_SESSION["id"] = $_REQUEST['user'];
+        $_SESSION["id"] = $_REQUEST['username'];
         /* 	OTHER COOKIES TO BE SET START*/
         /*          .
         /*			.
         /*			.
         /*			.					 */
         /*  OTHER COOKIES TO BE SET END  */
-        header("Location: ../private.php");
+        header("Location: ".$source['private']);
         exit;
     } else {
-        header("Location: ../index.php"); //TODO redirect on login page.
+        $_SESSION['bad_input'] = "username or password is incorrect";
+        header("Location: ".$source['index']); //TODO redirect on login page.
         exit;
     }
 }

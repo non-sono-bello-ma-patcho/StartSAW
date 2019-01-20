@@ -1,25 +1,36 @@
 <?php
 
 require "userUtility.php";
+$source = include("../config.php");
 session_start();
 
+
 function sign_up(){
-    //TODO check if the user already exist. key conflict
-	insertNewUser($_REQUEST['name'],$_REQUEST['surname'],$_REQUEST['username'],$_REQUEST['email'],sha1($_REQUEST['pswd']),"/img/default.jpg");
+	insertNewUser($_REQUEST['name'],$_REQUEST['surname'],$_REQUEST['username'],$_REQUEST['email'],$_REQUEST['pswd']);
 }
 
 
 if(isset($_POST['signupform'])){
+    if(existingUser($_REQUEST['username'])){
+        $_SESSION['bad_input'] = "username already taken";
+        header("Location: ".$source['index']);
+        exit;
+    }
+    if(trim($_REQUEST['pswd']) != trim($_REQUEST['pswdConfirm'])){
+        $_SESSION['bad_input'] = "password don't match";
+        header("Location: ".$source['index']);
+        exit;
+    }
 	sign_up();
 	setcookie("user", $_REQUEST['username'], time() + (3600), "/");
-	$_SESSION["id"] = $_REQUEST['user'];
+	$_SESSION["id"] = $_REQUEST['username'];
 		/* 	OTHER COOKIES TO BE SET START*/
 		/*          .
 		/*			.
 		/*			.
 		/*			.					 */
 		/*  OTHER COOKIES TO BE SET END  */
-	header("Location: ../private.php");
+    header("Location: ".$source['private']);
 	exit();
 }
 else{

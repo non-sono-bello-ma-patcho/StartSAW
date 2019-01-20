@@ -1,7 +1,7 @@
 <?php
 
 require "databaseUtility.php";
-session_start();
+/**session_start(); */
 
 /* GETTER */
 
@@ -21,12 +21,17 @@ function getUserPswd($username){
 	return get_information("users","pswd","username",trim($username));
 }
 
-function getUserImg($width, $height,$username){
-	$temp = get_information("users","img","username",trim($username));
-	return "<img  width=\"".$width."\" height= \"".$height."\" src=\"".$temp."\">";
+function getUserImg($username){
+	return get_information("users","img","username",trim($username));
 }
 
+function  getUserDescription($username){
+    return get_information("users","description","username",trim($username));
+}
 
+function getUserLocation($username){
+    return get_information("users","location","username",trim($username));
+}
 
 /* SETTER */
 
@@ -53,8 +58,21 @@ function  setUserUsername($newUser,$username){
 	$_SESSION['id'] = trim($newUser);
 }
 
-function insertNewUser($name,$surname,$username,$email,$password,$img){
-	row_insertion("users", array(trim($name),trim($surname),trim($username),trim($email),trim($password),trim($img)));
+function setUserDescription($newDescription,$username){
+    set_information("users","username", trim($username), "description",trim($newDescription));
+}
+
+function setUserLocation($newLocation,$username){
+    set_information("users","username", trim($username), "location",trim($newLocation));
+}
+
+function setUserPrivileges($newPrivileges,$username){
+    set_information("users","username", trim($username), "admin",$newPrivileges);
+}
+
+function insertNewUser($name,$surname,$username,$email,$password){
+	row_insertion("users", array(trim($name),trim($surname),trim($username),trim($email),sha1(trim($password)),
+        "img/default-account.png","Hey there! I am using Herschel","Location has not been selected yet",false));
 }
 
 function existingUser($username){
@@ -66,5 +84,6 @@ function existingUser($username){
 function isAdmin($username){
 	return get_information("users","admin","username",trim($username));
 }
+
 
 ?>
