@@ -4,19 +4,19 @@
 /*  for debug use only */
 define('DEBUG', 'debug'); //comment the line before the commercial use!!
 
- 
-
 function database_connection(){
-	$con = mysqli_connect("localhost","ShinonSaw","zerega1996","progettosaw"); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
-	if (mysqli_connect_errno($con)){
-		if(defined('DEBUG') || ($_SESSION['admin'] == true))
-			$_SESSION['last_error'] =  "ERROR 500: Failed to connect to MySQL: ".mysqli_connect_error($con);
-		else  $_SESSION['last_error'] = "ERROR 500: Something went wrong,please retry later or send us a message";
-		header("Location: error.php");
-		exit;
-	}
-	else return $con;
-
+    $dbcon = include('dbconfig.php');
+    echo 'connecting to db with values:<br>';
+    var_dump($dbcon);
+    $con = mysqli_connect($dbcon['host'], $dbcon['user'], $dbcon['password'], $dbcon['dbname'], $dbcon['port']); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
+    if (mysqli_connect_errno($con)){
+        if(defined('DEBUG') || ($_SESSION['admin'] == true))
+            $_SESSION['last_error'] =  "ERROR 500: Failed to connect to MySQL: ".mysqli_connect_error($con);
+        else  $_SESSION['last_error'] = "ERROR 500: Something went wrong,please retry later or send us a message";
+        header("Location: error.php");
+        exit;
+    }
+    else return $con;
 }
 
 
