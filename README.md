@@ -14,10 +14,7 @@ On error the function redirects on "error.php" with $session['last_error'] set.
 getUserPswd() : on success returns the password of the user "cookies['user']" (so the user must be online). 
 On error the function redirects on "error.php" with $session['last_error'] set.
 
-getUserImg() : on success returns the html string representing the img of the user "cookies['user']" (so the user must be online) in this format: 
-```html
-"<img width = "100" height="100" src='img_path'>".
-```
+getUserImg() : on success returns the path of the img of the user "cookies['user']" (so the user must be online).
 On error the function redirects on "error.php" with $session['last_error'] set.
 
 setUserName($newName) : the function changes the name stored in the database of the user "cookies['user']" 
