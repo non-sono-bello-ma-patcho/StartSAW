@@ -18,7 +18,7 @@ function database_connection(){
     }
     else return $con;
 }
-
+//
 
 function get_information($table, $column, $columnKey, $key){
 	$con = database_connection();
