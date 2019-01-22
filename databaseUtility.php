@@ -8,7 +8,7 @@ function database_connection(){
     $dbcon = include('dbconfig.php');
     echo 'connecting to db with values:<br>';
     var_dump($dbcon);
-    $con = mysqli_connect($dbcon['host'], $dbcon['user'], $dbcon['password'], $dbcon['dbname'], $dbcon['port']); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
+    $con = mysqli_connect($dbcon['host'], $dbcon['username'], $dbcon['password'], $dbcon['dbname'], $dbcon['port']); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
     if (mysqli_connect_errno($con)){
         if(defined('DEBUG') || ($_SESSION['admin'] == true))
             $_SESSION['last_error'] =  "ERROR 500: Failed to connect to MySQL: ".mysqli_connect_error($con);
