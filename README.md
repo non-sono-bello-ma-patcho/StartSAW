@@ -70,3 +70,4 @@ insertNewProduct($code,$name,$description,$price,$img_path): the functions on su
 and returns true. The $code must be unique, if you put an already used code you will get an error. 
 On error the function redirects on "error.php" with $session['last_error'] set.
 
+
