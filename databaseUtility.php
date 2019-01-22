@@ -6,8 +6,6 @@ define('DEBUG', 'debug'); //comment the line before the commercial use!!
 
 function database_connection(){
     $dbcon = include('dbconfig.php');
-    echo 'connecting to db with values:<br>';
-    var_dump($dbcon);
     $con = mysqli_connect($dbcon['host'], $dbcon['username'], $dbcon['password'], $dbcon['dbname'], $dbcon['port']); /* TO BE CHANGED ! (USE PSW AND USER OF RIBAUDO'S DATABASE) */
     if (mysqli_connect_errno($con)){
         if(defined('DEBUG') || ($_SESSION['admin'] == true))
