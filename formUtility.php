@@ -10,6 +10,6 @@ require 'databaseUtility.php';
 
 $username = trim($_REQUEST["username"]);
 
-echo get_information("users", "username", "username", $username) != "";
+echo get_information("users", "username", "username", $username);
 
 // obtain data from request
