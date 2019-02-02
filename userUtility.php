@@ -70,6 +70,11 @@ function setUserPrivileges($newPrivileges,$username){
     set_information("users","username", trim($username), "admin",$newPrivileges);
 }
 
+function setUserImg($newPath,$username){
+    set_information("users","username", trim($username), "img","img/profileImg/".$newPath);
+}
+
+
 function insertNewUser($name,$surname,$username,$email,$password){
 	row_insertion("users", array(trim($name),trim($surname),trim($username),trim($email),sha1(trim($password)),
         "img/default-account.png","Hey there! I am using Herschel","Location has not been selected yet",false));

@@ -37,7 +37,7 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
 
 function set_information($table, $columnKey, $key, $columnToBeSet, $newValue){
 	$con = database_connection();
-	$query = "UPDATE ".$table." WHERE ".$columnKey = $key." SET ".$columnToBeSet." = ".$newValue.";";
+    $query = "UPDATE ".$table." SET ".$columnToBeSet." = \"".$newValue."\" WHERE ".$columnKey."=\"".$key."\";";
 	$res = mysqli_query($con,$query);
 	if(!$res){
 		if(defined('DEBUG') || ($_SESSION['admin'] == true))
