@@ -18,7 +18,7 @@ function database_connection(){
 }
 //
 
-function get_information($table, $column, $columnKey, $key){
+function get_information($table, $column, $columnKey, $key, $entireRow=false){
 	$con = database_connection();
 	$query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey." = \"".$key."\";";
 	$res = mysqli_query($con,$query);
@@ -30,7 +30,8 @@ function get_information($table, $column, $columnKey, $key){
 		exit;
 	}
 	$row = mysqli_fetch_assoc($res);
-	return $row[$column];
+	// if entireRow is set, ignores column and return entire row:
+	return  $entireRow? $row : $row[$column];
 }
 
 
