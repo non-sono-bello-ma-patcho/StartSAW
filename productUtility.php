@@ -18,10 +18,8 @@ function getProductPrice($product_code){
 	return get_information("products","price","code",$product_code);
 }
 
-
 function getProductImg($product_code,$width,$height){
-	$temp = get_information("products","img","code",$product_code);
-	return "<img  width=\"".$width."\" height= \"".$height."\" src=\"".$temp."\">";
+	return get_information("products","img","code",$product_code);
 }
 
 /* SETTER */
@@ -39,6 +37,9 @@ function  setProductPrice($product_code,$newPrice){
 	return set_information("products","code",$product_code, "price",$newPrice);
 }
 
+function  setProductImg($product_code,$new_path){
+	return set_information("products","code",$product_code, "img","img/productImg/".$new_path);
+}
 
 /* NEW ITEM INSERTION */
 
@@ -46,5 +47,9 @@ function insertNewProduct($code,$name,$description,$price,$img_path){
 	row_insertion("products", array(trim($code),trim($name),trim($description),trim($price),trim($img_path)));
 }
 
-
+function existingProduct($code){
+	if(is_null(get_information("products","code","code",trim($code))))
+		return false;
+	else return true;
+}
 ?>
