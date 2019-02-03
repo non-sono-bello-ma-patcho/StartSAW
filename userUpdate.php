@@ -13,7 +13,7 @@
         if(!empty($_POST["modifyLocation"]))
             setUserLocation($_POST['modifyLocation'],$_SESSION['id']);
         if(!empty($_FILES['photo']['name'])) {
-            $uploaddir = $_SERVER['DOCUMENT_ROOT']."/startsaw-herschel/img/profileImg/"; //TODO find a solution... THE PATH "IMG/PROFILEIMG/" DOESN'T WORK.
+            $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/profileImg/"; //TODO find a solution... THE PATH "IMG/PROFILEIMG/" DOESN'T WORK.
             $filename = basename($_FILES['photo']['name']);
             $uploadfile = $uploaddir.$filename;
 

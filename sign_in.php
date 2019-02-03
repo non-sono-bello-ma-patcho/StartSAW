@@ -17,9 +17,9 @@ function sign_in(){
 
 
 if(isset($_POST['loginform'])) {
+    setcookie("user", $_REQUEST['user'], time() + (3600), "/");
+    $_SESSION["id"] = $_REQUEST['username'];
     if(sign_in()) {
-        setcookie("user", $_REQUEST['user'], time() + (3600), "/");
-        $_SESSION["id"] = $_REQUEST['username'];
         /* 	OTHER COOKIES TO BE SET START*/
         /*          .
         /*			.
@@ -30,7 +30,7 @@ if(isset($_POST['loginform'])) {
         exit;
     } else {
         $_SESSION['bad_input'] = "username or password is incorrect";
-        header("Location: ".$source['index']); //TODO redirect on login page.
+        header("Location: ".$source['wrong_credential']); //TODO redirect on login page.
         exit;
     }
 }
