@@ -29,8 +29,10 @@ if(isset($_POST['loginform'])) {
         header("Location: ".$source['private']);
         exit;
     } else {
+        setcookie ("attempteduser", $_REQUEST['user'], time()+3600*24*(2), '/', $_SERVER['HTTP_HOST'], 0 );
+        // setcookie("attempteduser", $_REQUEST['user'], time() + (3600));
         $_SESSION['bad_input'] = "username or password is incorrect";
-        header("Location: ".$source['index']); //TODO redirect on login page.
+        header("Location: ".$source['wrong_credential']);
         exit;
     }
 }
