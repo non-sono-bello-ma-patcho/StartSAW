@@ -67,6 +67,25 @@ function row_insertion($table, $toBeInsert){
 	}
 }
 
+function get_information_listed($table, $column, $columnKey, $key){
+    $con = database_connection();
+    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey." = \"".$key."\";";
+    $res = mysqli_query($con,$query);
+    if(!$res){
+        if(defined('DEBUG') || ($_SESSION['admin'] == true))
+            $_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
+        else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
+        header("Location: error.php");
+        exit;
+    }
+    $array = array();
+    $index = 0;
+   while( $row = mysqli_fetch_assoc($res)){
+       $array[$index] = $row[$column];
+       $index++;
+   }
+    return  $array;
+}
 
 
 
