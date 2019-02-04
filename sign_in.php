@@ -17,9 +17,9 @@ function sign_in(){
 
 
 if(isset($_POST['loginform'])) {
+    setcookie("user", $_REQUEST['user'], time() + (3600), "/");
+    $_SESSION["id"] = $_REQUEST['username'];
     if(sign_in()) {
-        setcookie("user", $_REQUEST['user'], time() + (3600), "/");
-        $_SESSION["id"] = $_REQUEST['username'];
         /* 	OTHER COOKIES TO BE SET START*/
         /*          .
         /*			.

@@ -22,7 +22,8 @@ function getUserPswd($username){
 }
 
 function getUserImg($username){
-	return get_information("users","img","username",trim($username));
+	$img = get_information("users","img","username",trim($username));
+    return $img == ""? "/img/default-account.png" : $img;
 }
 
 function  getUserDescription($username){
