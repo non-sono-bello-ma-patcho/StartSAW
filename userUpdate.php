@@ -15,7 +15,7 @@
         if(!empty($_POST["modifyUsername"]))
             setUserUsername($_POST['modifyUsername'],$_SESSION['id']);
         if(!empty($_FILES['photo']['name'])) {
-            $uploaddir = $_SERVER['DOCUMENT_ROOT']."/startsaw-herschel/img/profileImg/";
+            $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/profileImg/";
             $filename = basename($_FILES['photo']['name']);
             $uploadfile = $uploaddir.$filename;
 
@@ -24,7 +24,7 @@
                 header("Location: error.php");
                 exit;
             }
-            chmod($uploadfile,0777); //TODO TO BE CHANGED
+            //chmod($uploadfile,0777); //TODO TO BE CHANGED
             setUserImg($filename, $_SESSION['id']);
         }
         header("Location: ".$source['private']);
