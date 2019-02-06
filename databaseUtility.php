@@ -20,7 +20,8 @@ function database_connection(){
 
 function get_information($table, $column, $columnKey, $key, $entireRow=false){
 	$con = database_connection();
-	$query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey." = \"".$key."\";";
+	$condition = generate_condition($columnKey,$key);
+	$query = "SELECT ".$column." FROM ".$table." WHERE ".$condition.";";
 	$res = mysqli_query($con,$query);
 	if(!$res){
 		if(defined('DEBUG') || ($_SESSION['admin'] == true))
@@ -37,7 +38,8 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
 
 function set_information($table, $columnKey, $key, $columnToBeSet, $newValue){
 	$con = database_connection();
-    $query = "UPDATE ".$table." SET ".$columnToBeSet." = \"".$newValue."\" WHERE ".$columnKey."=\"".$key."\";";
+    $condition = generate_condition($columnKey,$key);
+    $query = "UPDATE ".$table." SET ".$columnToBeSet." = \"".$newValue."\" WHERE ".$condition.";";
 	$res = mysqli_query($con,$query);
 	if(!$res){
 		if(defined('DEBUG') || ($_SESSION['admin'] == true))
@@ -53,7 +55,9 @@ function row_insertion($table, $toBeInsert){
 	$con = database_connection();
 	$query ="INSERT INTO ".$table." VALUES (";
 	foreach ($toBeInsert as $value) {
-		$query .= "\"".$value."\",";
+	    if($value instanceof integer)
+	        $query .= $value.",";
+		else $query .= "\"".$value."\",";
 	}
 	$query = rtrim($query,',');
 	$query .= ");";
@@ -87,7 +91,20 @@ function get_information_listed($table, $column, $columnKey, $key){
     return  $array;
 }
 
-
+function generate_condition($column , $key){
+    $condition = "";
+    $index = 0;
+    if(is_array($column) && is_array($key)){
+        foreach($column as $singleColumn) {
+            $condition .= $singleColumn . " = \"" . $key[$index] . "\" AND ";
+            $index++;
+        }
+        $condition = substr($condition,0,-4);
+        //$condition = rtrim($condition,"AND");
+    }
+    else $condition = $column." = \"".$key."\"";
+return $condition;
+}
 
 
 ?>
