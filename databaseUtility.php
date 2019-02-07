@@ -71,9 +71,10 @@ function row_insertion($table, $toBeInsert){
 	}
 }
 
-function get_information_listed($table, $column, $columnKey, $key){
+function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
-    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey." = \"".$key."\";";
+    $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
+    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
     $res = mysqli_query($con,$query);
     if(!$res){
         if(defined('DEBUG') || ($_SESSION['admin'] == true))
@@ -84,10 +85,10 @@ function get_information_listed($table, $column, $columnKey, $key){
     }
     $array = array();
     $index = 0;
-   while( $row = mysqli_fetch_assoc($res)){
+    while( $row = mysqli_fetch_assoc($res)){
        $array[$index] = $row[$column];
        $index++;
-   }
+    }
     return  $array;
 }
 

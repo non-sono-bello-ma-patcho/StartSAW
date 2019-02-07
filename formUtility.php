@@ -23,7 +23,12 @@ switch ($op){
             $response[$cname] = $cvalue;
         }
         break;
-
+    case "searchuser":
+        $tmp = get_information_listed("users", "username", "username", $username, true);
+        foreach ($tmp as $user){
+            $response.array_push($response, get_information("users", "name, surname, username, email, admin, img", "username", $user, true));
+        }
+        break;
 }
 
 $myJson = json_encode($response);
