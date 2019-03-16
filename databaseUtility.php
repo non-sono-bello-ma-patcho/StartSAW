@@ -71,6 +71,22 @@ function row_insertion($table, $toBeInsert){
 	}
 }
 
+function row_deletion($table,$columnKey,$toBeDeleted){
+    $con = database_connection();
+    $condition = generate_condition($columnKey,$toBeDeleted);
+    $query = "DELETE FROM ".$table." WHERE ".$condition.";";
+    $res = mysqli_query($con,$query);
+    if(!res){
+        if(defined('DEBUG') || ($_SESSION['admin'] == true))
+            $_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
+        else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
+        header("Location: error.php");
+        exit;
+    }
+}
+
+
+
 function get_information_listed($table, $column, $columnKey, $key){
     $con = database_connection();
     $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey." = \"".$key."\";";

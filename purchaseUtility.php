@@ -30,11 +30,22 @@ function setCartQuantity($username,$item,$newQuantity){
 
 }
 
+function setPurchasesQuantity($username,$item,$newQuantity){
+    return set_information("purchases",array("username","item",array($username,$item),"amount",$newQuantity));
+}
+
+/* TEST = PASS */
+function removeFromCart($username,$item){
+    row_deletion("cart",array("username","item"),array($username,$item));
+}
+
 /*  TO BE TESTED */
 function insertUserPurchases($username,$hashMapOfItems){ //<key = code, value = quantity>
     $keys = array_keys($hashMapOfItems);
     foreach ($keys as $item) {
-        row_insertion("purchases",array($username,$item,$hashMapOfItems[$item]));
+        if(in_array($item,getUserPurchases($username)))
+            setPurchasesQuantity($username,$item,getPurchasesQuantity($username,$item)+1);
+        else row_insertion("purchases",array($username,$item,$hashMapOfItems[$item]));
     }
 }
 
