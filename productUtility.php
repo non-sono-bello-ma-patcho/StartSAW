@@ -41,6 +41,10 @@ function  setProductImg($product_code,$new_path){
 	return set_information("products","code",$product_code, "img","img/productImg/".$new_path);
 }
 
+
+function removeProduct($product_code){
+	row_deletion("product","code",$product_code);
+}
 /* NEW ITEM INSERTION */
 
 function insertNewProduct($code,$name,$description,$price,$img_path){

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require "purchaseUtility.php";
+//removeFromCart("giovanni","0123");
 
 $paolo = getUserCart("paolo");
 $giovanni = getUserCart("giovanni");
@@ -12,10 +13,7 @@ $_SESSION['last_error'] = "paolo possiede : ";
         $_SESSION['last_error'] .= $item2." in quantity: ".getCartQuantity("giovanni",$item2)." ";
 
 
-    insertUserCart("paolo", "010");
-    insertUserCart("paolo", "010");
-insertUserCart("paolo", "011");
-insertUserCart("paolo", "010");
+    //insertUserCart("paolo", "111000");
 
 
 
