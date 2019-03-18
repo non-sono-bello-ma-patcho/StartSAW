@@ -68,7 +68,7 @@ function setUserLocation($newLocation,$username){
 }
 
 function setUserPrivileges($newPrivileges,$username){
-    set_information("users","username", trim($username), "admin",$newPrivileges);
+    set_information("users","username", trim($username), "admin",$newPrivileges?1:0, true);
 }
 
 function setUserImg($newPath,$username){
@@ -82,9 +82,9 @@ function insertNewUser($name,$surname,$username,$email,$password){
 }
 
 function existingUser($username){
-    if(is_null(get_information("users","username","username",trim($username))))
+    if((get_information("users","username","username",trim($username)))===null)
 		return false;
-	else return true;
+	return true;
 }
 
 function isAdmin($username){

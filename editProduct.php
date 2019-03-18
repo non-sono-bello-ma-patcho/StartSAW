@@ -22,7 +22,7 @@ if(isset($_POST['editproductform'])){
     if(!empty($_POST["edescription"]))
         setProductDescription($_POST['eID'],$_POST['edescription']);
     if(!empty($_FILES['eimg']['name'])) {
-        $uploaddir = $_SERVER['DOCUMENT_ROOT']."/startsaw-herschel/img/productImg/";
+        $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/";
         $filename = basename($_FILES['eimg']['name']);
         $uploadfile = $uploaddir.$filename;
 

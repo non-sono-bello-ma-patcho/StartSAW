@@ -36,10 +36,11 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
 }
 
 
-function set_information($table, $columnKey, $key, $columnToBeSet, $newValue){
+function set_information($table, $columnKey, $key, $columnToBeSet, $newValue, $numeric=false){
 	$con = database_connection();
     $condition = generate_condition($columnKey,$key);
-    $query = "UPDATE ".$table." SET ".$columnToBeSet." = \"".$newValue."\" WHERE ".$condition.";";
+    $toupdate = $numeric? $newValue : "\"".$newValue."\"";
+    $query = "UPDATE ".$table." SET ".$columnToBeSet." = ".$toupdate." WHERE ".$condition.";";
 	$res = mysqli_query($con,$query);
 	if(!$res){
 		if(defined('DEBUG') || ($_SESSION['admin'] == true))

@@ -13,7 +13,7 @@ if(isset($_POST['addproductform'])){
         exit;
     }
 
-    $uploaddir = $_SERVER['DOCUMENT_ROOT']."/startsaw-herschel/img/productImg/";
+    $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/";
     $filename = basename($_FILES['Productimg']['name']);
     $uploadfile = $uploaddir.$filename;
 
