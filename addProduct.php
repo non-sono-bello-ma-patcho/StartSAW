@@ -13,7 +13,7 @@ if(isset($_POST['addproductform'])){
         exit;
     }
 
-    $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/";
+    $uploaddir = $_SERVER['DOCUMENT_ROOT']."/startsaw-herschel/img/productImg/"; //TODO CHANGE PATH FOR THE RIBAUDO'S SERVER
     $filename = basename($_FILES['Productimg']['name']);
     $uploadfile = $uploaddir.$filename;
 
@@ -25,7 +25,7 @@ if(isset($_POST['addproductform'])){
     chmod($uploadfile,0777); //TODO TO BE CHANGED
 
     insertNewProduct($_POST['Productid'],$_POST['Productname'],
-        $_POST['Productdescription'],$_POST['Productprice'],$filename);
+        $_POST['Productdescription'],$_POST['Productprice'],"img/productImg/".$filename);
     header("Location: ".$source['private']);
     exit;
 

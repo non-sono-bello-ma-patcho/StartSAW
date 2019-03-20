@@ -6,7 +6,7 @@
  * Time: 20.23
  */
 
-require 'userUtility.php';
+require_once 'userUtility.php';
 
 $param = trim($_REQUEST["param"]);
 $op = trim($_REQUEST["op"]);

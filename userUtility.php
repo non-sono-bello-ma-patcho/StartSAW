@@ -1,6 +1,6 @@
 <?php
 
-require "databaseUtility.php";
+require_once "databaseUtility.php";
 /**session_start(); */
 
 /* GETTER */
