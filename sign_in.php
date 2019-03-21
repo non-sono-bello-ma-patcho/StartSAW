@@ -6,9 +6,8 @@ session_start();
 
 function sign_in(){
 	if(existingUser($_REQUEST['username'])){
-		if(getUserPswd($_REQUEST['username']) !== sha1(trim($_REQUEST['pswd']))){
-		    return false;
-		}
+		if(getUserPswd($_REQUEST['username']) !== sha1(trim($_REQUEST['pswd'])))
+		    return "wrong_password";
 		else return true;
 	}
 	else return false;
@@ -17,22 +16,26 @@ function sign_in(){
 
 
 if(isset($_POST['loginform'])) {
-    setcookie("user", $_REQUEST['user'], time() + (3600), "/");
-    $_SESSION["id"] = $_REQUEST['username'];
-    if(sign_in()) {
+    $log = sign_in();
+    if($log === true) {
         /* 	OTHER COOKIES TO BE SET START*/
         /*          .
         /*			.
         /*			.
         /*			.					 */
         /*  OTHER COOKIES TO BE SET END  */
+        setcookie("user", $_REQUEST['user'], time() + (3600), "/");
+        $_SESSION["id"] = $_REQUEST['username'];
         header("Location: ".$source['private']);
         exit;
-    } else {
-        setcookie ("attempteduser", $_REQUEST['user'], time()+3600*24*(2), '/', $_SERVER['HTTP_HOST'], 0 );
-        // setcookie("attempteduser", $_REQUEST['user'], time() + (3600));
+    }else if(log === false){
         $_SESSION['bad_input'] = "username or password is incorrect";
-        header("Location: ".$source['wrong_credential']);
+        header("Location: ../index.php");
+        exit;
+    }else{
+        $_SESSION['attempteduser'] =  $_REQUEST['username'];
+        setcookie("attempteduser", $_REQUEST['user'], time() + (60), "/");
+        header("Location: " . $source['wrong_credential']);
         exit;
     }
 }

@@ -82,14 +82,12 @@ function insertNewUser($name,$surname,$username,$email,$password){
 }
 
 function existingUser($username){
-    return get_information("users","username","username",trim($username))==="";
-/*		return false;
-	return true;*/
+        return get_information("users","username","username",trim($username)) !== null;
+
 }
 
 function isAdmin($username){
 	return get_information("users","admin","username",trim($username));
 }
-
 
 ?>
