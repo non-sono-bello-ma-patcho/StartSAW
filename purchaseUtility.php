@@ -56,31 +56,33 @@ function insertUserCart($username,$item){
     else row_insertion("cart",array($username,$item,1));
 }
 
-function printUserItem($username,&$total){
+function printUserItem($username,&$total){ 
     $toBePrinted = "";
     $cont = 1;
     $cart = getUserCart($username);
     foreach ($cart as $item) {
+        $quantity = getCartQuantity($username,$item);
         if($cont %2 != 0)
             $toBePrinted .= "<div class = \"row\">";
         $toBePrinted .= "<div class=\"col-sm-6\">
             <div class=\"card slim-card text-white mt-2\">
                 <img src=\"" . getProductImg($item) . "\" class=\"card-img\" alt=\"...\">
                 <div class=\"card-img-overlay\">
-                    <h5 class=\"card-title\">" . getProductName($item) . "</h5>
-                    <p class=\"card-text\">" .getProductDescription($item)."</p>
-                    <p class=\"card-text\">" . getProductPrice($item) . "$</p>
+                    <span class=\"badge badge-light\">".$quantity."</span>
+                    <h5 class=\"card-title\">" . getProductName($item) . "</h5>".
+                    //<p class=\"card-text\">" .getProductDescription($item)."</p>
+                    "<p class=\"card-text\">" .getProductPrice($item)."$</p>
                 </div>
             </div>
         </div>";
         if($cont %2 == 0)
             $toBePrinted.="</div>";
         $cont = $cont +1;
-        $total = $total + getProductPrice($item);
+        $total = $total + (getProductPrice($item) * $quantity);
     }
     if($cont %2 == 0)
         $toBePrinted.="</div>";
 
-    $toBePrinted .= "<br><br> Total price: ".$total;
+    $toBePrinted .= "<br><br> Total price: ".$total."$";
     return $toBePrinted;
 }
