@@ -1,7 +1,7 @@
 <?php
 
-require "databaseUtility.php";
-session_start();
+require_once "databaseUtility.php";
+//session_start();
  
 
 /* GETTER */
@@ -18,7 +18,7 @@ function getProductPrice($product_code){
 	return get_information("products","price","code",$product_code);
 }
 
-function getProductImg($product_code,$width,$height){
+function getProductImg($product_code){
 	return get_information("products","img","code",$product_code);
 }
 

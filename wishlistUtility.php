@@ -1,5 +1,5 @@
 <?php
-require "databaseUtility.php";
+require_once "databaseUtility.php";
 
 function getUserWishList($username){
     return get_information_listed("wishlist","item","username",$username);
