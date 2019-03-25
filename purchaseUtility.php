@@ -1,5 +1,6 @@
 <?php
     require_once "databaseUtility.php";
+    require_once "productUtility.php";
 
 
     /* GETTER */
@@ -68,7 +69,7 @@ function printUserItem($username,&$total){
             <div class=\"card slim-card text-white mt-2\">
                 <img src=\"" . getProductImg($item) . "\" class=\"card-img\" alt=\"...\">
                 <div class=\"card-img-overlay\">
-                    <span class=\"badge badge-light\">".$quantity."</span>
+                    <span class=\"badge badge-light\">".$quantity."</span>scr
                     <h5 class=\"card-title\">" . getProductName($item) . "</h5>".
                     //<p class=\"card-text\">" .getProductDescription($item)."</p>
                     "<p class=\"card-text\">" .getProductPrice($item)."$</p>

@@ -82,7 +82,7 @@ function insertNewUser($name,$surname,$username,$email,$password){
 }
 
 function existingUser($username){
-    return get_information("users","username","username",trim($username))==="";
+    return get_information("users","username","username",trim($username))!==null;
 /*		return false;
 	return true;*/
 }
