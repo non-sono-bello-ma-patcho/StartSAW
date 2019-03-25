@@ -15,10 +15,10 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="apple-touch-icon" href="favicon.png">
+<!--    <link rel="apple-touch-icon" href="favicon.png">-->
     <!-- Place favicon.ico in the root directory -->
 
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/common.css">
     <link href="https://fonts.googleapis.com/css?family=Catamaran:300|Concert+One" rel="stylesheet">
 </head>
 
@@ -30,19 +30,22 @@
         </div>
     </div>
     <div class="titlediv sub">
-        <blockquote>
-           You might be nato imparato but you still have to test your forms
+        <figure>
+            <blockquote>
+               You might be nato imparato but you still have to test your forms
+            </blockquote>
             <figcaption>-M. Ribaudo</figcaption>
-        </blockquote>
+        </figure>
     </div>
 </div>
-<?php
-    require '../templates/signupform.php';
-    require '../templates/loginform.php';
-?>
+<div>
+    <?php
+        require '../components/signupform.php';
+        require '../components/loginform.php';
+    ?>
 </div>
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/main.js"></script>
+<script src="../vendor/jquery/jquery.js"></script>
+<script src="../js/common.js"></script>
 </body>
 
 </html>

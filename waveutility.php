@@ -76,9 +76,9 @@ function printcap(){
 
 <html>
 <head>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/common.css">
 </head>
-<body background="#001021">
+<body style='background="#001021"'>
 <svg viewBox="0 0 1802 1533">
     <g transform="scale(0.5) translate(100,2000) rotate(270)">
         <path d="<?php printlayer(200, 500) ?>" fill="#f3efe0"></path>
