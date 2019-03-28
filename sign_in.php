@@ -24,7 +24,7 @@ if(isset($_POST['loginform'])) {
         /*			.
         /*			.					 */
         /*  OTHER COOKIES TO BE SET END  */
-        setcookie("user", $_REQUEST['user'], time() + (3600), "/");
+        setcookie("user", $_REQUEST['username'], time() + (3600), "/");
         $_SESSION["id"] = $_REQUEST['username'];
         header("Location: ".$source['private']);
         exit;
@@ -33,7 +33,6 @@ if(isset($_POST['loginform'])) {
         header("Location: ../index.php");
         exit;
     }else{
-        //$_SESSION['attempteduser'] =  $_REQUEST['username'];
         setcookie("attempteduser", $_REQUEST['username'], time() + (60), "/");
         header("Location: " . $source['wrong_credential']);
         exit;
