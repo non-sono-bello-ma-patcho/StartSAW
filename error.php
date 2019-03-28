@@ -105,7 +105,7 @@
             <div class="card-body ">
                 <p class="text-white text-center" style="z-index: 2">
                     <?php
-                    /*require "databaseUtility.php";*/
+                   // require_once "databaseUtility.php";
                     echo $_SESSION['last_error'];
                     ?>
                 </p>
