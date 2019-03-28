@@ -87,7 +87,7 @@ function row_deletion($table,$columnKey,$toBeDeleted){
 }
 
 
-
+//todo RITESTARE get_information listed
 function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
     $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
@@ -107,6 +107,34 @@ function get_information_listed($table, $column, $columnKey, $key, $like=false){
        $index++;
     }
     return  $array;
+}
+
+
+//SELECT $toBeSearched from $table where MATCH($columnMatch[0],columnMatch[1]) AGAINST('+$search' IN NATURAL LANGUAGE MODE)
+
+function search_items($resultColumn,$table,$columnMatch,$search){
+    $con = database_connection();
+    $query = "SELECT ".$resultColumn." FROM ".$table." WHERE MATCH(";
+    foreach ($columnMatch as $column)
+        $query .= $column.",";
+    $query = substr($query,0,-1);
+    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE);";
+    $res = mysqli_query($con,$query);
+    if(!$res){
+        if(defined('DEBUG') || ($_SESSION['admin'] == true))
+            $_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
+        else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
+        header("Location: error.php");
+        exit;
+    }
+    $array = array();
+    $index = 0;
+    while($row = mysqli_fetch_assoc($res)){
+        $array[$index] = $row[$resultColumn];
+        $index++;
+    }
+    return  $array;
+
 }
 
 function generate_condition($column , $key){

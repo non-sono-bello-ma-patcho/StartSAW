@@ -33,8 +33,8 @@ if(isset($_POST['loginform'])) {
         header("Location: ../index.php");
         exit;
     }else{
-        $_SESSION['attempteduser'] =  $_REQUEST['username'];
-        setcookie("attempteduser", $_REQUEST['user'], time() + (60), "/");
+        //$_SESSION['attempteduser'] =  $_REQUEST['username'];
+        setcookie("attempteduser", $_REQUEST['username'], time() + (60), "/");
         header("Location: " . $source['wrong_credential']);
         exit;
     }
