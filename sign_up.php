@@ -30,6 +30,14 @@ if(isset($_POST['signupform'])){
 		/*			.
 		/*			.					 */
 		/*  OTHER COOKIES TO BE SET END  */
+    /*
+        $from = "noreply@herschel.com";
+        $to = $_REQUEST['email'];
+        $subject = "Welcome to Herschel";
+        $message = "Welcome to Herschel! From today your journey start";
+        $headers = "From:" . $from;
+        mail($to,$subject,$message, $headers);
+    */
     header("Location: ".$source['private']);
 	exit();
 }
