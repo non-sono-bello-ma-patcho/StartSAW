@@ -8,8 +8,9 @@
 
 require_once 'userUtility.php';
 
-$param = trim($_REQUEST["param"]);
-$op = trim($_REQUEST["op"]);
+$param = isset($_REQUEST["param"])? trim($_REQUEST["param"]) : "";
+$op = trim($_REQUEST["op"]); // must be set always
+$username = isset($_REQUEST["username"])? trim($_REQUEST["username"]) : "";
 $response = array();
 
 switch ($op){
@@ -29,10 +30,20 @@ switch ($op){
             $response.array_push($response, get_information("users", "name, surname, username, email, admin, img", "username", $user, true));
         }
         break;
+    case "addToCart":
+        $response = is_array($param)? "got an array" : "got single variable...";
+
+        break;
     case "searchproduct":
         $row = get_information("products", "*", "code", $param, true);
         foreach($row as $cname => $cvalue) {
             $response[$cname] = $cvalue;
+        }
+        break;
+    case "latest_prod":
+        $tmp = get_information_listed($param, "code", "code", '%%', true);
+        foreach ($tmp as $product){
+            $response.array_push($response, $product);
         }
         break;
 }
