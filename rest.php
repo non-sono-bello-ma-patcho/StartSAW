@@ -11,6 +11,7 @@ require_once 'userUtility.php';
 $param = isset($_REQUEST["param"])? trim($_REQUEST["param"]) : "";
 $op = trim($_REQUEST["op"]); // must be set always
 $username = isset($_REQUEST["username"])? trim($_REQUEST["username"]) : "";
+$id = isset($_REQUEST['id'])? $_REQUEST['id'] : "";
 $response = array();
 
 switch ($op){
