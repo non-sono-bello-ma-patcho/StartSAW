@@ -110,15 +110,19 @@ function get_information_listed($table, $column, $columnKey, $key, $like=false){
 }
 
 
-//SELECT $toBeSearched from $table where MATCH($columnMatch[0],columnMatch[1]) AGAINST('+$search' IN NATURAL LANGUAGE MODE)
 
-function search_items($resultColumn,$table,$columnMatch,$search){
+function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction){
     $con = database_connection();
     $query = "SELECT ".$resultColumn." FROM ".$table." WHERE MATCH(";
     foreach ($columnMatch as $column)
         $query .= $column.",";
     $query = substr($query,0,-1);
-    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE);";
+    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE)";
+    if($orderby === false)
+        $query .=";";
+    else{
+        $query .= " ORDER BY ".$orderby." ".$direction.";";
+    }
     $res = mysqli_query($con,$query);
     if(!$res){
         if(defined('DEBUG') || ($_SESSION['admin'] == true))

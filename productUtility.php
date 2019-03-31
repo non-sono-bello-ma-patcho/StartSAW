@@ -22,6 +22,10 @@ function getProductImg($product_code){
 	return get_information("products","img","code",$product_code);
 }
 
+function getProductRelevance($product_code){
+	return get_information("products","relevance","code",$product_code);
+}
+
 /* SETTER */
 
 
@@ -41,14 +45,17 @@ function  setProductImg($product_code,$new_path){
 	return set_information("products","code",$product_code, "img","img/productImg/".$new_path);
 }
 
+function setProductRelevance($product_code,$new_relevance){
+	return set_information("products","code",$product_code,"relevance",$new_relevance);
+}
 
 function removeProduct($product_code){
-	row_deletion("product","code",$product_code);
+	row_deletion("products","code",$product_code);
 }
 /* NEW ITEM INSERTION */
 
 function insertNewProduct($code,$name,$description,$price,$img_path){
-	row_insertion("products", array(trim($code),trim($name),trim($description),trim($price),trim($img_path)));
+	row_insertion("products", array(trim($code),trim($name),trim($description),trim($price),trim($img_path)),"0");
 }
 
 function existingProduct($code){
