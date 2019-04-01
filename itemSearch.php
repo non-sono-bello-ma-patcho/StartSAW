@@ -6,17 +6,17 @@ require_once 'productUtility.php';
 
 
 switch($_REQUEST['order']){
-    case "price_min":
-        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],"price","ASC");
+    case "lowest":
+        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],"price","ASC",$_REQUEST['min'],$_REQUEST['max']);
         break;
-    case "price_max":
-        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],"price","DESC");
+    case "hightest":
+        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],"price","DESC",$_REQUEST['min'],$_REQUEST['max']);
         break;
     case "relevance":
-        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],"relevance","DESC");
+        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],"relevance","DESC",$_REQUEST['min'],$_REQUEST['max']);
         break;
     default:
-        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],false,false);
+        $result = search_items('code','products',array('name','description'),$_REQUEST['value'],false,false, $_REQUEST['min'],$_REQUEST['max']);
 }
 
 $toBePrinted = "";

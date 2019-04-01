@@ -111,13 +111,14 @@ function get_information_listed($table, $column, $columnKey, $key, $like=false){
 
 
 
-function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction){
+function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction,$min_price,$max_price){
     $con = database_connection();
     $query = "SELECT ".$resultColumn." FROM ".$table." WHERE MATCH(";
     foreach ($columnMatch as $column)
         $query .= $column.",";
     $query = substr($query,0,-1);
-    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE)";
+    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE) AND price >= ".$min_price." AND price <= ".$max_price;
+
     if($orderby === false)
         $query .=";";
     else{
