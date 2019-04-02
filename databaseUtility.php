@@ -87,7 +87,7 @@ function row_deletion($table,$columnKey,$toBeDeleted){
 }
 
 
-//todo RITESTARE get_information listed
+
 function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
     $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";

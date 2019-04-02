@@ -1,8 +1,16 @@
 <?php
 
 require "userUtility.php";
+require "mailUtility.php";
 $source = include("../config.php");
 session_start();
+
+
+
+
+
+
+
 
 
 function sign_up(){
@@ -21,6 +29,12 @@ if(isset($_POST['signupform'])){
         header("Location: ".$source['index']);
         exit;
     }
+    if (filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) !== true){
+        $_SESSION['bad_input'] = "invalid email";
+        header("Location: ".$source['index']);
+        exit;  //TODO i bad input non sono utilizzati
+    }
+
 	sign_up();
 	setcookie("user", $_REQUEST['username'], time() + (3600), "/");
 	$_SESSION["id"] = $_REQUEST['username'];
@@ -30,14 +44,7 @@ if(isset($_POST['signupform'])){
 		/*			.
 		/*			.					 */
 		/*  OTHER COOKIES TO BE SET END  */
-    /*
-        $from = "noreply@herschel.com";
-        $to = $_REQUEST['email'];
-        $subject = "Welcome to Herschel";
-        $message = "Welcome to Herschel! From today your journey start";
-        $headers = "From:" . $from;
-        mail($to,$subject,$message, $headers);
-    */
+    send_mail(1,$_REQUEST['email']);
     header("Location: ".$source['private']);
 	exit();
 }
