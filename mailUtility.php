@@ -1,6 +1,6 @@
 
 <?php
-
+session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -10,40 +10,59 @@ require '../mailer/src/PHPMailer.php';
 require '../mailer/src/SMTP.php';
 
 
+function welcome(){
+    $message = "<html style=\"font-family:'Raleway',sans-serif;\">";
+    $message .= "<head><link href=\"https://fonts.googleapis.com/css?family=Raleway\" rel=\"stylesheet\"></head>";
+    $message .= "<body style = 'font-size: 1rem;font-weight: 400;line-height: 1.5;color: #212529;text-align: left; letter-spacing: 0.0625em'>";
+    $message .= "<div style='position: relative;width: 100%;'><img style='max-width: 100%; height: auto;' src='cid:img'/></div>";
+    $message .= "<div style='box-sizing: border-box;display: flex !important;height: 100% !important; text-align: center !important;'>";
+    $message .= "<div style='padding: 3rem;font-size: 90%;text-align: center !important;margin-bottom: auto !important;
+    margin-top: auto !important;width: 100% !important;box-sizing: border-box;background-color: #161616 !important;'>";
+    $message .= "<h1 style='color: #fff !important;'>Welcome to Herschel</h1>";
+    $message .= "<p style='color: rgba(255,255,255,.5) !important;margin-top: 0;margin-bottom: 0 !important;'>
+        Vivi una esperienza magnifica con i nostri pacchetti safari!!!</p></div></div>";
+    $message .="</html>";
+    return $message;
+}
 
 
 function send_mail($macro_message_number,$receiver){
     $infoMail = include('mailconfig.php');
     $mail = new PHPMailer(true);
 
-    switch($macro_message_number){
-        case 1:
-            $message = "Welcome! May the Braveness guide thee!";
-            $subject = "Welcome to Herschel";
-            break;
-            /* to be done */
-    }
+
     //Send mail using gmail
     $mail->IsSMTP(); // telling the class to use SMTP
     $mail->SMTPAuth = true; // enable SMTP authentication
-    $mail->SMTPSecure = "ssl"; // sets the prefix to the servier
+    $mail->SMTPSecure = "tls"; // sets the prefix to the servier
     $mail->Host = $infoMail['host']; // sets GMAIL as the SMTP server
     $mail->Port = $infoMail['port']; // set the SMTP port for the GMAIL server 465
     $mail->Username = $infoMail['username']; // GMAIL username
     $mail->Password = $infoMail['password']; // GMAIL password
 
+
+    switch($macro_message_number){
+        case 1:
+            //$message = "Welcome! May the Braveness guide thee!";
+            $subject = "Welcome to Herschel";
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->AddEmbeddedImage('../img/demo1.jpg', 'img');
+            $mail->Body    = welcome();
+            break;
+        /* to be done */
+    }
     //Typical mail data
     $mail->SetFrom($mail->Username);
     $mail->addAddress($receiver);
     $mail->Subject = $subject;
-    $mail->Body = $message;
+    //$mail->Body = $message;
 
     try{
         $mail->Send();
     } catch(Exception $e){
         //Something went bad
         /* debug zone */
-        $_SESSION['last_error'] = 'fail '.$mail->ErrorInfo;;
+        $_SESSION['last_error'] = 'fail '.$mail->ErrorInfo;
         header("Location: error.php");
         exit;
     }
