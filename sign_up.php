@@ -29,12 +29,13 @@ if(isset($_POST['signupform'])){
         header("Location: ".$source['index']);
         exit;
     }
+    /*
     if (filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) !== true){
         $_SESSION['bad_input'] = "invalid email";
         header("Location: ".$source['index']);
         exit;  //TODO i bad input non sono utilizzati
     }
-
+*/
 	sign_up();
 	setcookie("user", $_REQUEST['username'], time() + (3600), "/");
 	$_SESSION["id"] = $_REQUEST['username'];
