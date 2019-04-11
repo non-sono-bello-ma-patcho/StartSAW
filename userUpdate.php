@@ -1,7 +1,7 @@
 <?php
     session_start();
     require "userUtility.php";
-    $source = include("../config.php");
+   // $source = include("../config.php");
 
     if(isset($_POST['modifyform'])){
         if(!empty($_POST["modifyName"]))
@@ -24,7 +24,7 @@
                 header("Location: error.php");
                 exit;
             }
-            //chmod($uploadfile,0777); //TODO TO BE CHANGED
+            chmod($uploadfile,0777); //TODO TO BE CHANGED
             setUserImg($filename, $_SESSION['id']);
         }
         header("Location: ".$source['private']);

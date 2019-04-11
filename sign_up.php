@@ -11,8 +11,6 @@ session_start();
 
 
 
-
-
 function sign_up(){
 	insertNewUser($_REQUEST['name'],$_REQUEST['surname'],$_REQUEST['username'],$_REQUEST['email'],$_REQUEST['pswd']);
 }

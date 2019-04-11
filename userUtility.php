@@ -50,7 +50,7 @@ function  setUserMail($newMail,$username){
 }
 
 function  setUserPswd($newPswd,$username){
-	set_information("users","username", trim($username), "pswd",trim($newPswd));
+	set_information("users","username", trim($username), "pswd",sha1(trim($newPswd)));
 }
 
 function  setUserUsername($newUser,$username){
