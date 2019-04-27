@@ -1,4 +1,5 @@
-<?php session_start(); ?>
+<?php session_start();
+?>
 <html>
 <head>
 	<title>An error occured</title>
@@ -105,8 +106,19 @@
             <div class="card-body ">
                 <p class="text-white text-center" style="z-index: 2">
                     <?php
-                   // require_once "databaseUtility.php";
-                    echo $_SESSION['last_error'];
+
+                    switch($_GET['code']){
+                        case 400: $text = 'Error 400: Bad Request'; break;
+                        case 401: $text = 'Error 401: Unauthorized'; break;
+                        case 500: $text = 'Error 500: Internal Server Error'; break;
+                        case 501: $text = 'Error 501: Not Implemented'; break;
+                        case 503: $text = 'Error 503: Service Unavailable'; break;
+                        default:  $text= "unknown http error status";
+                    }
+                    if(isadmin($_SESSION['id']))
+                        $text.= " \n".$_SESSION['last_error'];
+                    echo $text;                    //echo $_SESSION['last_error'];
+
                     ?>
                 </p>
             </div>

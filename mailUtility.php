@@ -78,8 +78,9 @@ function send_mail($macro_message_number,$receiver){
     } catch(Exception $e){
         //Something went bad
         /* debug zone */
-        $_SESSION['last_error'] = 'fail '.$mail->ErrorInfo; //TODO cancellare sta parte dopo il debug
-        header("Location: error.php");
+        http_response_code(503);
+        $_SESSION['last_error'] = 'fail sending email: '.$mail->ErrorInfo; //TODO cancellare sta parte dopo il debug
+        header("Location: error.php?code=".http_response_code());
         exit;
     }
 }

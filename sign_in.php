@@ -29,8 +29,8 @@ if(isset($_POST['loginform'])) {
         header("Location: ".$source['private']);
         exit;
     }else if(log === false){
-        $_SESSION['bad_input'] = "username or password is incorrect";
-        header("Location: ../index.php");
+        http_response_code(400);
+        header("Location: ".$source['index']."?code=".http_response_code());
         exit;
     }else{
         setcookie("attempteduser", $_REQUEST['username'], time() + (60), "/");
@@ -39,11 +39,11 @@ if(isset($_POST['loginform'])) {
     }
 }
 else{
-    $_SESSION['last_error'] = "the login form is not set";
-    header("Location: error.php");
+    http_response_code(503);
+    $_SESSION['last_error']= "login form is not set";
+    header("Location: error.php?code=".http_response_code());
     exit;
 }
 ?>
 
 
-//http_response_code

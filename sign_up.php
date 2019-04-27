@@ -18,22 +18,18 @@ function sign_up(){
 
 if(isset($_POST['signupform'])){
     if(existingUser($_REQUEST['username'])){
-        $_SESSION['bad_input'] = "username already taken";
-        header("Location: ".$source['index']);
+        http_response_code(400);
+        $_SESSION['last_error'] = "username already taken";
+        header("Location: ".$source['index']."?code=".http_response_code());
         exit;
     }
     if(trim($_REQUEST['pswd']) != trim($_REQUEST['pswdConfirm'])){
-        $_SESSION['bad_input'] = "password don't match";
-        header("Location: ".$source['index']);
+        http_response_code(400);
+        $_SESSION['last_error'] = "password doesn't match";
+        header("Location: ".$source['index']."?code=".http_response_code());
         exit;
     }
-    /*
-    if (filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL) !== true){
-        $_SESSION['bad_input'] = "invalid email";
-        header("Location: ".$source['index']);
-        exit;  //TODO i bad input non sono utilizzati
-    }
-*/
+
 	sign_up();
 	setcookie("user", $_REQUEST['username'], time() + (3600), "/");
 	$_SESSION["id"] = $_REQUEST['username'];
@@ -48,8 +44,9 @@ if(isset($_POST['signupform'])){
 	exit();
 }
 else{
+    http_response_code(503);
  	$_SESSION['last_error'] = "the signup form is  not set";
-	 header("Location: error.php");
+    header("Location: error.php?code=".http_response_code());
 	 exit();
 }
 	

@@ -57,6 +57,7 @@ function insertUserCart($username,$item){
     else row_insertion("cart",array($username,$item,1));
 }
 
+/*
 function printUserItem($username,&$total){
     $toBePrinted = "";
     $cont = 1;
@@ -87,3 +88,4 @@ function printUserItem($username,&$total){
     $toBePrinted .= "<br><br> Total price: ".$total."$";
     return $toBePrinted;
 }
+*/

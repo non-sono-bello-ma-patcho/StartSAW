@@ -46,7 +46,7 @@ function  setProductImg($product_code,$new_path){
 }
 
 function setProductRelevance($product_code,$new_relevance){
-	return set_information("products","code",$product_code,"relevance",$new_relevance);
+	return set_information("products","code",$product_code,"relevance",$new_relevance,true); //todo numeric = true because i need to sum the relevance
 }
 
 function removeProduct($product_code){

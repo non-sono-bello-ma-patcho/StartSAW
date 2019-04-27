@@ -7,8 +7,9 @@ if(isset($_POST['editproductform'])){
 
     /* doppio controllo */
     if(!existingProduct($_POST['eID'])){
+        http_response_code(400);
         $_SESSION['last_error'] = "the product code is incorrect";
-        header("Location: error.php");
+        header("Location: ".$source['private']."?code=".http_response_code());
         exit;
     }
 
@@ -27,9 +28,10 @@ if(isset($_POST['editproductform'])){
         $uploadfile = $uploaddir.$filename;
 
          if (!move_uploaded_file($_FILES['eimg']['tmp_name'], $uploadfile)) {
-            $_SESSION['last_error'] = "failed to upload the img, the file path should be ".$uploadfile;
-            header("Location: error.php");
-            exit;
+             http_response_code(500);
+             $_SESSION['last_error'] = "failed to upload the img,check the path or the MIME type";
+             header("Location: error.php?code=".http_response_code());
+             exit;
          }
         chmod($uploadfile,0777); //TODO TO BE CHANGED
         setProductImg($_POST['eID'],$filename);
@@ -37,7 +39,8 @@ if(isset($_POST['editproductform'])){
     header("Location: ".$source['private']);
     exit;
 }else{
+    http_response_code(503);
     $_SESSION['last_error'] = "editproductform is not set";
-    header("Location: error.php");
+    header("Location: error.php?code=".http_response_code());
     exit;
 }

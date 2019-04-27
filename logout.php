@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: phibonachos
- * Date: 04/02/19
- * Time: 23.44
- */
+
 session_start();
 $pages = include '../config.php';
 

@@ -1,54 +1,92 @@
 <?php
 
-/*session_start();*/
-/*  for debug use only */
-define('DEBUG', 'debug'); //comment the line before the commercial use!!
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////AUXILIARY METHODS/////////////////////////////////////////////////////////
+
+
 
 function database_connection(){
     $dbcon = include('dbconfig.php');
     $con = mysqli_connect($dbcon['host'], $dbcon['username'], $dbcon['password'], $dbcon['dbname'], $dbcon['port']);
     if (mysqli_connect_errno($con)){
-        if(defined('DEBUG') || ($_SESSION['admin'] == true))
-            $_SESSION['last_error'] =  "ERROR 500: Failed to connect to MySQL: ".mysqli_connect_error($con);
-        else  $_SESSION['last_error'] = "ERROR 500: Something went wrong,please retry later or send us a message";
-        header("Location: error.php");
+        http_response_code(500);
+        $_SESSION['last_error'] =  "Failed to connect to MySQL: ".mysqli_connect_error($con);
+        header("Location: error.php?code=".http_response_code());
         exit;
     }
     else return $con;
 }
-//
+
+function send_query($con,$query){
+    $res = mysqli_query($con,$query);
+    if(!$res){
+        http_response_code(500);
+        $_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
+        header("Location: error.php?code=".http_response_code());
+        exit;
+    }
+    else return $res;
+}
+
+
+function generate_condition($column , $key){
+    $condition = "";
+    $index = 0;
+    if(is_array($column) && is_array($key)){
+        foreach($column as $singleColumn) {
+            $condition .= $singleColumn . " = \"" . $key[$index] . "\" AND ";
+            $index++;
+        }
+        $condition = substr($condition,0,-4);
+        //$condition = rtrim($condition,"AND");
+    }
+    else $condition = $column." = \"".$key."\"";
+    return $condition;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////CORE METHODS///////////////////////////////////////////////////////////
+
+
+
 
 function get_information($table, $column, $columnKey, $key, $entireRow=false){
 	$con = database_connection();
 	$condition = generate_condition($columnKey,$key);
 	$query = "SELECT ".$column." FROM ".$table." WHERE ".$condition.";";
-	$res = mysqli_query($con,$query);
-	if(!$res){
-		if(defined('DEBUG') || ($_SESSION['admin'] == true))
-			$_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
-		else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
-		header("Location: error.php");
-		exit;
-	}
+    $res = send_query($con,$query);
 	$row = mysqli_fetch_assoc($res);
+	mysqli_close($con);
 	// if entireRow is set, ignores column and return entire row:
 	return  $entireRow? $row : $row[$column];
 }
 
+function get_information_listed($table, $column, $columnKey, $key, $like=false){
+    $con = database_connection();
+    $cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,key);
+    //$cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
+    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
+    $res = send_query($con,$query);
+    $array = array();
+    $index = 0;
+    while( $row = mysqli_fetch_assoc($res)){
+        $array[$index] = $row[$column];
+        $index++;
+    }
+    mysqli_close($con);
+    return  $array;
+}
 
 function set_information($table, $columnKey, $key, $columnToBeSet, $newValue, $numeric=false){
 	$con = database_connection();
     $condition = generate_condition($columnKey,$key);
     $toupdate = $numeric? $newValue : "\"".$newValue."\"";
     $query = "UPDATE ".$table." SET ".$columnToBeSet." = ".$toupdate." WHERE ".$condition.";";
-	$res = mysqli_query($con,$query);
-	if(!$res){
-		if(defined('DEBUG') || ($_SESSION['admin'] == true))
-			$_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
-		else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
-		header("Location: error.php");
-		exit;
-	}
+	send_query($con,$query);
+	mysqli_close($con);
 }
 
 
@@ -62,52 +100,18 @@ function row_insertion($table, $toBeInsert){
 	}
 	$query = rtrim($query,',');
 	$query .= ");";
-	$res = mysqli_query($con,$query);
-	if(!$res){
-		if(defined('DEBUG') || ($_SESSION['admin'] == true))
-			$_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
-		else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
-		header("Location: error.php");
-		exit;
-	}
+    send_query($con,$query);
+    mysqli_close($con);
 }
 
 function row_deletion($table,$columnKey,$toBeDeleted){
     $con = database_connection();
     $condition = generate_condition($columnKey,$toBeDeleted);
     $query = "DELETE FROM ".$table." WHERE ".$condition.";";
-    $res = mysqli_query($con,$query);
-    if(!res){
-        if(defined('DEBUG') || ($_SESSION['admin'] == true))
-            $_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
-        else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
-        header("Location: error.php");
-        exit;
-    }
+    send_query($con,$query);
+    mysqli_close($con);
 }
 
-
-
-function get_information_listed($table, $column, $columnKey, $key, $like=false){
-    $con = database_connection();
-    $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
-    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
-    $res = mysqli_query($con,$query);
-    if(!$res){
-        if(defined('DEBUG') || ($_SESSION['admin'] == true))
-            $_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
-        else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
-        header("Location: error.php");
-        exit;
-    }
-    $array = array();
-    $index = 0;
-    while( $row = mysqli_fetch_assoc($res)){
-       $array[$index] = $row[$column];
-       $index++;
-    }
-    return  $array;
-}
 
 
 
@@ -124,37 +128,16 @@ function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direct
     else{
         $query .= " ORDER BY ".$orderby." ".$direction.";";
     }
-    $res = mysqli_query($con,$query);
-    if(!$res){
-        if(defined('DEBUG') || ($_SESSION['admin'] == true))
-            $_SESSION['last_error'] = "ERROR 501: Failed to execute the query: ".$query.PHP_EOL;
-        else $_SESSION['last_error'] = "ERROR 501: Something went wrong,please retry later or send us a message";
-        header("Location: error.php");
-        exit;
-    }
+    $res = send_query($con,$query);
     $array = array();
     $index = 0;
     while($row = mysqli_fetch_assoc($res)){
         $array[$index] = $row[$resultColumn];
         $index++;
     }
+    mysqli_close($con);
     return  $array;
 
-}
-
-function generate_condition($column , $key){
-    $condition = "";
-    $index = 0;
-    if(is_array($column) && is_array($key)){
-        foreach($column as $singleColumn) {
-            $condition .= $singleColumn . " = \"" . $key[$index] . "\" AND ";
-            $index++;
-        }
-        $condition = substr($condition,0,-4);
-        //$condition = rtrim($condition,"AND");
-    }
-    else $condition = $column." = \"".$key."\"";
-return $condition;
 }
 
 

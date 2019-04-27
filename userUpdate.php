@@ -20,8 +20,9 @@
             $uploadfile = $uploaddir.$filename;
 
             if (!move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) {
-                $_SESSION['last_error'] = "failed to upload the img, the file path should be ".$uploadfile;
-                header("Location: error.php");
+                http_response_code(500);
+                $_SESSION['last_error'] = "failed to upload the img,check the path or the MIME type";
+                header("Location: error.php?code=".http_response_code());
                 exit;
             }
             chmod($uploadfile,0777); //TODO TO BE CHANGED
@@ -31,7 +32,8 @@
         exit;
     }
     else{
-        $_SESSION['last_error'] = "modifyform is not set";
-        header("Location: error.php");
+        http_response_code(503);
+        $_SESSION['last_error'] = "editproductform is not set";
+        header("Location: error.php?code=".http_response_code());
         exit;
     }
