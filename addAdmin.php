@@ -9,8 +9,8 @@
             header("Location: " . $source['private']);
             exit;
         } else {
-            http_response_code(400);
-            $_SESSION['last_error'] = "the user selected doesn't exist";
+            http_response_code(500);
+            $_SESSION['last_error'] = "the user selected doesn't exist, and the first check missed the error";
             header("Location: error.php?code=".http_response_code());
             exit;
         }

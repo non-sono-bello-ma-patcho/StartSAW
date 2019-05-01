@@ -8,8 +8,8 @@ if(isset($_POST['addproductform'])){
     if(empty($_POST['Productid']) || empty($_POST['Productname'])
         || empty($_POST['Productprice']) || empty($_POST['Productdescription'])
         || empty($_FILES['Productimg']['name'])){
-        http_response_code(400);
-        $_SESSION['last_error'] = "some field  have not been filled before the request";
+        http_response_code(500);
+        $_SESSION['last_error'] = "some fields have not been filled before the request and the first check missed the error";
         header("Location: error.php?code=".http_response_code());
         exit;
     }

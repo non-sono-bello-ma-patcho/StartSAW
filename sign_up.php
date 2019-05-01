@@ -18,15 +18,15 @@ function sign_up(){
 
 if(isset($_POST['signupform'])){
     if(existingUser($_REQUEST['username'])){
-        http_response_code(400);
-        $_SESSION['last_error'] = "username already taken";
-        header("Location: ".$source['index']."?code=".http_response_code());
+        http_response_code(500);
+        $_SESSION['last_error'] = "username already taken,the first check missed the error";
+        header("Location: error.php?code=".http_response_code());
         exit;
     }
     if(trim($_REQUEST['pswd']) != trim($_REQUEST['pswdConfirm'])){
-        http_response_code(400);
-        $_SESSION['last_error'] = "password doesn't match";
-        header("Location: ".$source['index']."?code=".http_response_code());
+        http_response_code(500);
+        $_SESSION['last_error'] = "password doesn't match, the first check missed the error";
+        header("Location: error.php?code=".http_response_code());
         exit;
     }
 
