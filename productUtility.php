@@ -26,6 +26,34 @@ function getProductRelevance($product_code){
 	return get_information("products","relevance","code",$product_code);
 }
 
+function getProductLevel($product_code){
+	return get_information("products","level","code",$product_code);
+}
+
+function getProductGuide($product_code){
+	return get_information("products","guide","code",$product_code);
+}
+
+function getProductDistance($product_code){
+	return get_information("products","distance","code",$product_code);
+}
+
+function getProductMaxUsers($product_code){
+	return get_information("products","maxUsers","code",$product_code);
+}
+
+function getProductDuration($product_code){
+	return get_information("products","duration","code",$product_code);
+}
+
+function getProductMinAge($product_code){
+	return get_information("products","minAge","code",$product_code);
+}
+
+function getProductHousing($product_code){
+	return get_information("products","housing","code",$product_code);
+}
+
 /* SETTER */
 
 
@@ -46,16 +74,46 @@ function  setProductImg($product_code,$new_path){
 }
 
 function setProductRelevance($product_code,$new_relevance){
-	return set_information("products","code",$product_code,"relevance",$new_relevance,true); //todo numeric = true because i need to sum the relevance
+	return set_information("products","code",$product_code,"relevance",$new_relevance,true);
 }
+
+function setProductLevel($product_code,$new_level){
+	return set_information("products","code",$product_code,"level",$new_level,true);
+}
+
+function setProductGuide($product_code,$new_guide){
+	return set_information("products","code",$product_code,"guide",$new_guide);
+}
+
+function setProductDistance($product_code,$new_distance){
+	return set_information("products","code",$product_code,"distance",$new_distance,true);
+}
+
+function setProductMaxUsers($product_code,$new_maxUsers){
+	return set_information("products","code",$product_code,"maxUsers",$new_maxUsers,true);
+}
+
+function setProductDuration($product_code,$new_duration){
+	return set_information("products","code",$product_code,"duration",$new_duration,true);
+}
+
+function setProductMinAge($product_code,$new_minAge){
+	return set_information("products","code",$product_code,"minAge",$new_minAge,true);
+}
+
+function setProductHousing($product_code,$new_housing){
+	return set_information("products","code",$product_code,"housing",$new_housing);
+}
+
 
 function removeProduct($product_code){
 	row_deletion("products","code",$product_code);
 }
 /* NEW ITEM INSERTION */
 
-function insertNewProduct($code,$name,$description,$price,$img_path){
-	row_insertion("products", array(trim($code),trim($name),trim($description),trim($price),trim($img_path)),"0");
+function insertNewProduct($code,$name,$description,$price,$img_path,$level,$minAge,$distance,$duration,$guide,$housing,$maxUsers){
+	row_insertion("products", array(trim($code),trim($name),trim($description),trim($price),trim($img_path),0,(int)trim($level),
+		(int)trim($minAge),(int)trim($distance),(int)trim($duration),$guide,$housing,(int)trim($maxUsers)));
 }
 
 function existingProduct($code){
