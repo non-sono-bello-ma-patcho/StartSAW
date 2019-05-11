@@ -80,7 +80,7 @@ function send_mail($macro_message_number,$receiver){
         /* debug zone */
         http_response_code(503);
         $_SESSION['last_error'] = 'fail sending email: '.$mail->ErrorInfo; //TODO cancellare sta parte dopo il debug
-        header("Location: error.php?code=".http_response_code());
+        header("Location: ../error.php?code=".http_response_code());
         exit;
     }
 }

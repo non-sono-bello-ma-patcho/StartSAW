@@ -42,7 +42,7 @@ if(isset($_POST['loginform'])) {
 else{
     http_response_code(503);
     $_SESSION['last_error']= "login form is not set";
-    header("Location: error.php?code=".http_response_code());
+    header("Location: ../../error.php?code=".http_response_code());
     exit;
 }
 ?>

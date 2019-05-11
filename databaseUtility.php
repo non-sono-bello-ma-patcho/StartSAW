@@ -13,7 +13,7 @@ function database_connection(){
     if (mysqli_connect_errno($con)){
         http_response_code(500);
         $_SESSION['last_error'] =  "Failed to connect to MySQL: ".mysqli_connect_error($con);
-        header("Location: error.php?code=".http_response_code());
+        header("Location: ../error.php?code=".http_response_code());
         exit;
     }
     else return $con;
@@ -24,7 +24,7 @@ function send_query($con,$query){
     if(!$res){
         http_response_code(500);
         $_SESSION['last_error'] = "Failed to execute the query: ".$query.PHP_EOL;
-        header("Location: error.php?code=".http_response_code());
+        header("Location: ../error.php?code=".http_response_code());
         exit;
     }
     else return $res;
