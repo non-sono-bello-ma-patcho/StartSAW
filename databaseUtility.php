@@ -66,15 +66,48 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
 
 function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
-    $cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,key);
-    //$cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
+    //$cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,key);
+    $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
     $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
+    $res = send_query($con,$query);
+    $array = array();
+    $index = 0;
+    while( $row = mysqli_fetch_assoc($res)){
+        foreach($row as $key => $value) {
+            $array[$index] = $column = "*" ? $row[$key] : $row[$column];
+            $index++;
+        }
+    }
+    mysqli_close($con);
+    return  $array;
+}
+
+
+function get_Entire_Column($table,$column){
+    $con = database_connection();
+    $query = "SELECT $column FROM ".$table;
     $res = send_query($con,$query);
     $array = array();
     $index = 0;
     while( $row = mysqli_fetch_assoc($res)){
         $array[$index] = $row[$column];
         $index++;
+    }
+    mysqli_close($con);
+    return  $array;
+}
+
+function get_All($table){
+    $con = database_connection();
+    $query = "SELECT * FROM ".$table;
+    $res = send_query($con,$query);
+    $array = array();
+    $index = 0;
+    while( $row = mysqli_fetch_assoc($res)){
+        foreach ($row as $key => $value) {
+            $array[$index] = $row[$key];
+            $index++;
+        }
     }
     mysqli_close($con);
     return  $array;

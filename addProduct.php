@@ -14,7 +14,7 @@ if(isset($_POST['addproductform'])){
         exit;
     }
 
-    $uploaddir = $_SERVER['DOCUMENT_ROOT']."/dist/img/productImg/"; //TODO CHANGE PATH FOR THE RIBAUDO'S SERVER
+    $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/"; //TODO CHANGE PATH FOR THE RIBAUDO'S SERVER
     $filename = basename($_FILES['Productimg']['name']);
     $uploadfile = $uploaddir.$filename;
 

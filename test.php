@@ -1,10 +1,46 @@
+
+
+
+
+
+
+
+
 <?php
 session_start();
 require_once "databaseUtility.php";
 require_once "productUtility.php";
+
 ?>
 
 
+<html>
+    <body>
+        <div align="center">
+            <?php
+            /*
+                  $myarray = array();
+                  $myarray = getEntireProductsColumn("name");
+                  foreach ($myarray as $item){
+                      echo $item." ///// ";
+                  }
+
+            $myarray2 = getEntireProductRow("1");
+            foreach ($myarray2 as $item){
+                echo $item." ///// ";
+            }
+            */
+            $myarray = array();
+            $myarray = getAllProducts();
+            foreach ($myarray as $item){
+                echo $item." ///// ";
+            }
+                  ?>
+        </div>
+
+    </body>
+</html>
+<!--
 
 <html>
     <head>
@@ -16,7 +52,7 @@ require_once "productUtility.php";
 
         <title>Private Page - Herschel</title>
 
-        <!-- Bootstrap core CSS -->
+
         <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/private.css">
         <link rel="stylesheet" href="../css/grayscale.css">
@@ -31,11 +67,11 @@ require_once "productUtility.php";
                     <div class="input-group">
                         <input type="text" name="itemsearchID" id="itemsearch" placeholder="Type something..." class="form-control rightcorners" style="border-top-right-radius: 0 !important; border-bottom-right-radius: 0 !important;">
                         <div class="input-group-append">
-                            <!--
+
                             <a onclick="load_search_result()">
                                 <span class="input-group-text glyphicon glyphicon-search" style="top: 0!important; border-top-left-radius: 0; border-bottom-left-radius: 0;">search</span>
                             </a>
-                            -->
+
                         </div>
                     </div>
                     <input type="radio" name="orderby" id="order_by_min_price" value="lowest price" > lowest price <br>
@@ -54,3 +90,4 @@ require_once "productUtility.php";
     </body>
 </html>
 
+-->

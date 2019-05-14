@@ -23,7 +23,7 @@ if(isset($_POST['editproductform'])){
     if(!empty($_POST["edescription"]))
         setProductDescription($_POST['eID'],$_POST['edescription']);
     if(!empty($_FILES['eimg']['name'])) {
-        $uploaddir = $_SERVER['DOCUMENT_ROOT']."/dist/img/productImg/"; //todo aggiungere gli altri campi
+        $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/"; //todo aggiungere gli altri campi
         $filename = basename($_FILES['eimg']['name']);
         $uploadfile = $uploaddir.$filename;
 
