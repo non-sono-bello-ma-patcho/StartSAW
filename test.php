@@ -10,7 +10,14 @@
 session_start();
 require_once "databaseUtility.php";
 require_once "productUtility.php";
+require_once  "userUtility.php";
+require_once "purchaseUtility.php";
 
+
+if(!isset($_SERVER['PHP_AUTH_USER'])){
+    http_response_code(401);
+    header("Location: ../error.php?code=".http_response_code());
+}
 ?>
 
 
@@ -29,11 +36,25 @@ require_once "productUtility.php";
             foreach ($myarray2 as $item){
                 echo $item." ///// ";
             }
-            */
+
             $myarray = array();
             $myarray = getAllProducts();
             foreach ($myarray as $item){
                 echo $item." ///// ";
+            }
+
+            $myarray = array();
+            $myarray = getAllUser();
+            foreach ($myarray as $item){
+                echo $item." / ".readline_on_new_line();
+            }
+            */
+           // echo getTotalCartPrice("root2");
+
+            $myarray = array();
+            $myarray = getEntireCartColumn("item");
+            foreach ($myarray as $item) {
+                echo $item . " / " . readline_on_new_line();
             }
                   ?>
         </div>

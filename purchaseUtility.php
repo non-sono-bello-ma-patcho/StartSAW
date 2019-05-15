@@ -5,6 +5,19 @@
 
     /* GETTER */
 
+
+function getEntireCartRow($username){
+    return get_information_listed("cart","*","username",$username,false);
+}
+
+function getEntireCartColumn($column){
+    return get_Entire_Column("cart", $column);
+}
+
+function getAllCart(){
+    return get_All("cart");
+}
+
 /* TEST = PASS */
 function getUserPurchases($username){
     return get_information_listed("purchase","item","username",$username);
@@ -23,6 +36,16 @@ function getPurchasesQuantity($username,$item){
 /* TEST = PASS */
 function getCartQuantity($username,$item){
     return get_information("cart","amount",array("username","item"),array($username,$item));
+}
+
+
+function getTotalCartPrice($username){
+    $items = getUserCart($username);
+    $total = 0;
+    foreach($items as $singleItem){
+        $total += getProductPrice($singleItem);
+    }
+    return $total;
 }
 
 /* TEST = PASS */
@@ -56,36 +79,3 @@ function insertUserCart($username,$item){
         setCartQuantity($username,$item,getCartQuantity($username,$item)+1);
     else row_insertion("cart",array($username,$item,1));
 }
-
-/*
-function printUserItem($username,&$total){
-    $toBePrinted = "";
-    $cont = 1;
-    $cart = getUserCart($username);
-    foreach ($cart as $item) {
-        $quantity = getCartQuantity($username,$item);
-        if($cont %2 != 0)
-            $toBePrinted .= "<div class = \"row\">";
-        $toBePrinted .= "<div class=\"col-sm-6\">
-            <div class=\"card slim-card text-white mt-2\">
-                <img src=\"" . getProductImg($item) . "\" class=\"card-img\" alt=\"...\">
-                <div class=\"card-img-overlay\">
-                    <span class=\"badge badge-light\">".$quantity."</span>scr
-                    <h5 class=\"card-title\">" . getProductName($item) . "</h5>".
-                    //<p class=\"card-text\">" .getProductDescription($item)."</p>
-                    "<p class=\"card-text\">" .getProductPrice($item)."$</p>
-                </div>
-            </div>
-        </div>";
-        if($cont %2 == 0)
-            $toBePrinted.="</div>";
-        $cont = $cont +1;
-        $total = $total + (getProductPrice($item) * $quantity);
-    }
-    if($cont %2 == 0)
-        $toBePrinted.="</div>";
-
-    $toBePrinted .= "<br><br> Total price: ".$total."$";
-    return $toBePrinted;
-}
-*/

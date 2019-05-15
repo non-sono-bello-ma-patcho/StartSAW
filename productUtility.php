@@ -10,7 +10,7 @@ function getEntireProductRow($product_code){
 	return get_information_listed("products","*","code",$product_code,false);
 }
 
-function getEntireProductsColumn($column){
+function getEntireProductColumn($column){
 	return get_Entire_Column("products", $column);
 }
 

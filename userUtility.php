@@ -5,6 +5,21 @@ require_once "databaseUtility.php";
 
 /* GETTER */
 
+
+function getEntireUserRow($username){
+    return get_information_listed("users","*","username",$username,false);
+}
+
+function getEntireUserColumn($column){
+    return get_Entire_Column("users", $column);
+}
+
+// it doesn't include the password
+function getAllUser(){
+    return get_multiple_information("users",
+        array("name","surname","username","email","img","description","location","admin"));
+}
+
 function getUserName($username){
 	return get_information("users","name","username",trim($username));
 }
