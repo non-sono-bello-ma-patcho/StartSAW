@@ -73,10 +73,11 @@ function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $array = array();
     $index = 0;
     while( $row = mysqli_fetch_assoc($res)){
-        foreach($row as $key => $value) {
+        array_push($array, $row);
+        /*foreach($row as $key => $value) {
             $array[$index] = $column = "*" ? $row[$key] : $row[$column];
             $index++;
-        }
+        }*/
     }
     mysqli_close($con);
     return  $array;

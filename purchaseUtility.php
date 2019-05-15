@@ -25,7 +25,7 @@ function getUserPurchases($username){
 
 /* TEST = PASS */
 function getUserCart($username){
-    return get_information_listed("cart","item","username",$username);
+    return get_information_listed("cart c inner join products p on c.item = p.code","item, description, price, name","username",$username);
 }
 
 /*  TO BE TESTED */
@@ -38,13 +38,8 @@ function getCartQuantity($username,$item){
     return get_information("cart","amount",array("username","item"),array($username,$item));
 }
 
-
 function getTotalCartPrice($username){
-    $items = getUserCart($username);
-    $total = 0;
-    foreach($items as $singleItem){
-        $total += getProductPrice($singleItem);
-    }
+    $total = get_information("cart c inner join products p on c.item = p.code", "sum(price)", "username", $username);
     return $total;
 }
 
