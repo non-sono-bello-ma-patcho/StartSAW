@@ -6,6 +6,18 @@ require_once "databaseUtility.php";
 
 /* GETTER */
 
+function getEntireProductRow($product_code){
+	return get_information_listed("products","*","code",$product_code,false);
+}
+
+function getEntireProductColumn($column){
+	return get_Entire_Column("products", $column);
+}
+
+function getAllProducts(){
+	return get_All("products");
+}
+
 function getProductName($product_code){
 	return get_information("products","name","code",$product_code);
 }
@@ -58,51 +70,51 @@ function getProductHousing($product_code){
 
 
 function  setProductName($product_code,$newName){
-	return set_information("products","code",$product_code, "name",$newName);
+	set_information("products","code",$product_code, "name",$newName);
 }
 
 function  setProductDescription($product_code,$newDescription){
-	return set_information("products","code",$product_code, "description",$newDescription);
+	set_information("products","code",$product_code, "description",$newDescription);
 }
 
 function  setProductPrice($product_code,$newPrice){
-	return set_information("products","code",$product_code, "price",$newPrice);
+	set_information("products","code",$product_code, "price",$newPrice);
 }
 
 function  setProductImg($product_code,$new_path){
-	return set_information("products","code",$product_code, "img","img/productImg/".$new_path);
+	set_information("products","code",$product_code, "img","img/productImg/".$new_path);
 }
 
 function setProductRelevance($product_code,$new_relevance){
-	return set_information("products","code",$product_code,"relevance",$new_relevance,true);
+	set_information("products","code",$product_code,"relevance",$new_relevance,true);
 }
 
 function setProductLevel($product_code,$new_level){
-	return set_information("products","code",$product_code,"level",$new_level,true);
+	set_information("products","code",$product_code,"level",$new_level,true);
 }
 
 function setProductGuide($product_code,$new_guide){
-	return set_information("products","code",$product_code,"guide",$new_guide);
+	set_information("products","code",$product_code,"guide",$new_guide);
 }
 
 function setProductDistance($product_code,$new_distance){
-	return set_information("products","code",$product_code,"distance",$new_distance,true);
+	set_information("products","code",$product_code,"distance",$new_distance,true);
 }
 
 function setProductMaxUsers($product_code,$new_maxUsers){
-	return set_information("products","code",$product_code,"maxUsers",$new_maxUsers,true);
+	set_information("products","code",$product_code,"maxUsers",$new_maxUsers,true);
 }
 
 function setProductDuration($product_code,$new_duration){
-	return set_information("products","code",$product_code,"duration",$new_duration,true);
+	 set_information("products","code",$product_code,"duration",$new_duration,true);
 }
 
 function setProductMinAge($product_code,$new_minAge){
-	return set_information("products","code",$product_code,"minAge",$new_minAge,true);
+	set_information("products","code",$product_code,"minAge",$new_minAge,true);
 }
 
 function setProductHousing($product_code,$new_housing){
-	return set_information("products","code",$product_code,"housing",$new_housing);
+	set_information("products","code",$product_code,"housing",$new_housing);
 }
 
 
@@ -121,4 +133,3 @@ function existingProduct($code){
 		return false;
 	else return true;
 }
-?>

@@ -66,15 +66,77 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
 
 function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
-    $cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,key);
-    //$cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
+    //$cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,key);
+    $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
     $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
+    $res = send_query($con,$query);
+    $array = array();
+    $index = 0;
+    while( $row = mysqli_fetch_assoc($res)){
+        foreach($row as $key => $value) {
+            $array[$index] = $column = "*" ? $row[$key] : $row[$column];
+            $index++;
+        }
+    }
+    mysqli_close($con);
+    return  $array;
+}
+
+
+function get_multiple_information($table,$column,$columnKey=false,$key=false){
+    if(!is_array($column)) return;
+    $con = database_connection();
+    $query = "SELECT ";
+    foreach($column as $item){
+        $query .= $item.",";
+    }
+    $query = substr($query,0,-1);
+    if($columnKey && $key) {
+        $condition = generate_condition($columnKey,$key);
+        $query .= " FROM " . $table . " WHERE " . $condition;
+    }
+    else $query .=" FROM ".$table;
+    $res = send_query($con,$query);
+    $array = array();
+    $index = 0;
+    while( $row = mysqli_fetch_assoc($res)){
+        //foreach ($row as $key => $value) {
+           // $array[$index] = $row[$key];
+           // $index++;
+            array_push($array,$row);
+        //}
+    }
+    mysqli_close($con);
+    return $array;
+}
+
+function get_Entire_Column($table,$column){
+    $con = database_connection();
+    $query = "SELECT $column FROM ".$table;
     $res = send_query($con,$query);
     $array = array();
     $index = 0;
     while( $row = mysqli_fetch_assoc($res)){
         $array[$index] = $row[$column];
         $index++;
+    }
+    mysqli_close($con);
+    return  $array;
+}
+
+function get_All($table){
+    $con = database_connection();
+    $query = "SELECT * FROM ".$table;
+    $res = send_query($con,$query);
+    $array = array();
+    $index = 0;
+    while( $row = mysqli_fetch_assoc($res)){
+        array_push($array,$row);
+
+        //foreach ($row as $key => $value) {
+           // $array[$index] = $row[$key];
+           // $index++;
+       // }
     }
     mysqli_close($con);
     return  $array;
@@ -94,7 +156,7 @@ function row_insertion($table, $toBeInsert){
 	$con = database_connection();
 	$query ="INSERT INTO ".$table." VALUES (";
 	foreach ($toBeInsert as $value) {
-	    if($value instanceof integer)
+	    if($value instanceof Integer) //TODO VERIFICARE LA CORRETTEZZA CON IN NUMERI INTERI
 	        $query .= $value.",";
 		else $query .= "\"".$value."\",";
 	}
