@@ -26,7 +26,7 @@ if(isset($_POST['loginform'])) {
         /*  OTHER COOKIES TO BE SET END  */
         setcookie("user", $_REQUEST['username'], time() + (3600), "/");
         $_SESSION["id"] = $_REQUEST['username'];
-        $_SERVER['PHP_AUTH_USER'] = true;
+       // $_SERVER['PHP_AUTH_USER'] = true;
         header("Location: ".$source['private']);
         exit;
     }else if(log === false){

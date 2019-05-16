@@ -33,7 +33,7 @@ if(isset($_POST['signupform'])){
 	sign_up();
 	setcookie("user", $_REQUEST['username'], time() + (3600), "/");
 	$_SESSION["id"] = $_REQUEST['username'];
-    $_SERVER['PHP_AUTH_USER'] = true;
+    //$_SERVER['PHP_AUTH_USER'] = true;
     /* 	OTHER COOKIES TO BE SET START*/
 		/*          .
 		/*			.
