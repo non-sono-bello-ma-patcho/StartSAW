@@ -40,11 +40,7 @@ function getCartQuantity($username,$item){
 
 
 function getTotalCartPrice($username){
-    $items = getUserCart($username);
-    $total = 0;
-    foreach($items as $singleItem){
-        $total += getProductPrice($singleItem);
-    }
+    $total = get_information("cart c inner join products p on c.item = p.code", "sum(price)", "username", $username);
     return $total;
 }
 

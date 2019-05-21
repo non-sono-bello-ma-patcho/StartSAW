@@ -1,6 +1,7 @@
 <?php
 
 require "userUtility.php";
+require "purchaseUtility.php";
 $source = include("../config.php");
 session_start();
 
@@ -15,7 +16,7 @@ function sign_in(){
 
 
 
-if(isset($_POST['loginform'])) {
+if(true/*isset($_POST['loginform'])*/) {
     $log = sign_in();
     if($log === true) {
         /* 	OTHER COOKIES TO BE SET START*/
@@ -25,6 +26,7 @@ if(isset($_POST['loginform'])) {
         /*			.					 */
         /*  OTHER COOKIES TO BE SET END  */
         setcookie("user", $_REQUEST['username'], time() + (3600), "/");
+        setcookie("cart", serialize(getUserCart($_REQUEST['username'])), time() + (3600), "/");
         $_SESSION["id"] = $_REQUEST['username'];
        // $_SERVER['PHP_AUTH_USER'] = true;
         header("Location: ".$source['private']);
@@ -46,6 +48,6 @@ else{
     header("Location: ../../error.php?code=".http_response_code());
     exit;
 }
-?>
+
 
 

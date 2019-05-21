@@ -31,7 +31,8 @@ function getProductPrice($product_code){
 }
 
 function getProductImg($product_code){
-	return get_information("products","img","code",$product_code);
+    $path = get_information("products","img","code",$product_code);
+	return $path === ""? $_SERVER['DOCUMENT_ROOT']."img/imgProduct/default-product.jpg" : $path;
 }
 
 function getProductRelevance($product_code){

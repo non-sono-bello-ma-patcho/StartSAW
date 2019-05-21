@@ -68,7 +68,7 @@ function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
     $cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,$key);
     //$cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
-    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
+    $query = "SELECT ".$column." FROM ".$table." WHERE ".$cond;
     $res = send_query($con,$query);
     $array = array();
     $index = 0;
@@ -129,14 +129,8 @@ function get_All($table){
     $query = "SELECT * FROM ".$table;
     $res = send_query($con,$query);
     $array = array();
-    $index = 0;
     while( $row = mysqli_fetch_assoc($res)){
         array_push($array,$row);
-
-        //foreach ($row as $key => $value) {
-           // $array[$index] = $row[$key];
-           // $index++;
-       // }
     }
     mysqli_close($con);
     return  $array;
@@ -190,17 +184,15 @@ function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direct
     else{
         $query .= " ORDER BY ".$orderby." ".$direction.";";
     }
+
+    error_log("executing query: {$query}");
+
     $res = send_query($con,$query);
     $array = array();
-    $index = 0;
     while($row = mysqli_fetch_assoc($res)){
-        $array[$index] = $row[$resultColumn];
-        $index++;
+        array_push($array, $row);
     }
     mysqli_close($con);
     return  $array;
 
 }
-
-
-?>
