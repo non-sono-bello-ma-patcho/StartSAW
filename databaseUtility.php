@@ -10,7 +10,7 @@
 function database_connection(){
     $dbcon = include('dbconfig.php');
     $con = mysqli_connect($dbcon['host'], $dbcon['username'], $dbcon['password'], $dbcon['dbname'], $dbcon['port']);
-    if (mysqli_connect_errno($con)){
+    if (mysqli_connect_errno()){ /* attenzione ho tolto il parametro $con */
         http_response_code(500);
         $_SESSION['last_error'] =  "Failed to connect to MySQL: ".mysqli_connect_error($con);
         header("Location: ../error.php?code=".http_response_code());
@@ -40,7 +40,6 @@ function generate_condition($column , $key){
             $index++;
         }
         $condition = substr($condition,0,-4);
-        //$condition = rtrim($condition,"AND");
     }
     else $condition = $column." = \"".$key."\"";
     return $condition;
@@ -98,13 +97,8 @@ function get_multiple_information($table,$column,$columnKey=false,$key=false){
     else $query .=" FROM ".$table;
     $res = send_query($con,$query);
     $array = array();
-    $index = 0;
     while( $row = mysqli_fetch_assoc($res)){
-        //foreach ($row as $key => $value) {
-           // $array[$index] = $row[$key];
-           // $index++;
-            array_push($array,$row);
-        //}
+        array_push($array,$row);
     }
     mysqli_close($con);
     return $array;
@@ -168,22 +162,36 @@ function row_deletion($table,$columnKey,$toBeDeleted){
     mysqli_close($con);
 }
 
+function filters_handler($filters,$orderby=false,$direction=false){
+    $condition ="";
+    foreach($filters as $filterName => $value){
+        switch($filterName){
+            case "maxPrice": $condition .= "price <= $value AND "; break;
+            case "minPrice": $condition .= "price >= $value AND "; break;
+            case "guide": $condition .= "guide = $value AND "; break;
+            case "housing": $condition .= "housing = $value AND "; break;
+            case "minAge": $condition .= "minAge >= $value AND "; break;
+            case "maxDistance": $condition .=  "distance <= $value AND "; break;
+            case "minDistance": $condition .= "distance >= $value AND "; break;
+            case "maxUsers": $condition .= "maxUsers <= $value AND "; break;
+        }
+    }
+    $condition = substr($condition,0,-4);
+    $condition .= $orderby && $direction ? "ORDER BY $orderby $direction" : "";
+    return $condition;
+}
 
 
-
-function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction,$min_price,$max_price){
+function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction,$filters){
     $con = database_connection();
     $query = "SELECT ".$resultColumn." FROM ".$table." WHERE MATCH(";
     foreach ($columnMatch as $column)
         $query .= $column.",";
     $query = substr($query,0,-1);
-    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE) AND price >= ".$min_price." AND price <= ".$max_price;
+    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE)";
 
-    if($orderby === false)
-        $query .=";";
-    else{
-        $query .= " ORDER BY ".$orderby." ".$direction.";";
-    }
+    $condition = $orderby && $direction ? filters_handler($filters,true,true) : filters_handler($filters);
+    $query .= " $condition ;";
 
     error_log("executing query: {$query}");
 

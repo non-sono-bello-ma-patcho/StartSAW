@@ -16,7 +16,7 @@ function sign_in(){
 
 
 
-if(true/*isset($_POST['loginform'])*/) {
+if(isset($_POST['loginform'])) {
     $log = sign_in();
     if($log === true) {
         /* 	OTHER COOKIES TO BE SET START*/
@@ -28,7 +28,6 @@ if(true/*isset($_POST['loginform'])*/) {
         setcookie("user", $_REQUEST['username'], time() + (3600), "/");
         setcookie("cart", serialize(getUserCart($_REQUEST['username'])), time() + (3600), "/");
         $_SESSION["id"] = $_REQUEST['username'];
-       // $_SERVER['PHP_AUTH_USER'] = true;
         header("Location: ".$source['private']);
         exit;
     }else if(log === false){
