@@ -182,15 +182,17 @@ function filters_handler($filters,$orderby=false,$direction=false){
 }
 
 
-function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction,$filters){
+function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction,$filters=false){
     $con = database_connection();
     $query = "SELECT ".$resultColumn." FROM ".$table." WHERE MATCH(";
     foreach ($columnMatch as $column)
         $query .= $column.",";
     $query = substr($query,0,-1);
     $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE)";
-
-    $condition = $orderby && $direction ? filters_handler($filters,true,true) : filters_handler($filters);
+    if($filters !== false)
+        $condition = $orderby !== false && $direction !== false  ? filters_handler($filters,$orderby,$direction)
+            : filters_handler($filters);
+    else $condition = $orderby !== false && $direction !== false ? "ORDER BY $orderby $direction" : "";
     $query .= " $condition ;";
 
     error_log("executing query: {$query}");
