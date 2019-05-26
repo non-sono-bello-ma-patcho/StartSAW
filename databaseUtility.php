@@ -162,6 +162,19 @@ function row_deletion($table,$columnKey,$toBeDeleted){
     mysqli_close($con);
 }
 
+
+function getLastSafeKey($username,$date){
+    $con = database_connection();
+    $query = "SELECT secretcode FROM safenessKey WHERE username= '$username' AND dateOfRequest = '$date' AND 
+                timeOfRequest IN ( SELECT max(timeOfRequest) FROM safenessKey)";
+    $res = send_query($con,$query);
+    $row = mysqli_fetch_assoc($res);
+    mysqli_close($con);
+    return $row['secretcode'];
+}
+
+
+
 function filters_handler($filters,$orderby=false,$direction=false){
     $condition ="";
     foreach($filters as $filterName => $value){

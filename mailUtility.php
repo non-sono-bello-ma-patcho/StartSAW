@@ -32,17 +32,17 @@ function welcome_message(){
     return core_message($message);
 }
 
-function reset_password_message(){
+function reset_password_message($queryString){
     $message = "<h1 style='color: #fff !important;'>Change your Password by clicking the button below</h1>";
     $message .= "<h2><a style='background-color: #3d348b;box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1);padding: 1.25rem 2rem;
 font-size: 80%;text-transform: uppercase;letter-spacing: .15rem;border: 0;color: #fff;display: inline-block;border-radius: .25rem;
 transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;outline: 0;
-text-decoration: none;' href='localhost/startsaw-herschel/php/changePasswordTest.php'>Change Password</a></h2>"; //TODO set the correct change password URL
+text-decoration: none;' href='localhost/php/test.php?code=$queryString'>Change Password</a></h2>"; //TODO set the correct change password URL
     return core_message($message);
 }
 //https://github.com/non-sono-bello-ma-patcho/
 
-function send_mail($macro_message_number,$receiver){
+function send_mail($macro_message_number,$receiver,$queryString = false){
     $infoMail = include('mailconfig.php');
     $mail = new PHPMailer(true);
 
@@ -66,7 +66,7 @@ function send_mail($macro_message_number,$receiver){
             break;
         case 2:
             $mail->Subject = "Reset your password";
-            $mail->Body = reset_password_message();
+            $mail->Body = reset_password_message($queryString);
             break;
     }
     //Typical mail data
