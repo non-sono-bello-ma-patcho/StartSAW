@@ -158,25 +158,26 @@ function row_deletion($table,$columnKey,$toBeDeleted){
     $con = database_connection();
     $condition = generate_condition($columnKey,$toBeDeleted);
     $query = "DELETE FROM ".$table." WHERE ".$condition.";";
+    error_log("executing query: {$query}");
     send_query($con,$query);
     mysqli_close($con);
 }
 
 function filters_handler($filters,$orderby=false,$direction=false){
     $condition ="";
-    foreach($filters as $filterName => $value){
-        switch($filterName){
-            case "maxPrice": $condition .= "price <= $value AND "; break;
-            case "minPrice": $condition .= "price >= $value AND "; break;
-            case "guide": $condition .= "guide = $value AND "; break;
-            case "housing": $condition .= "housing = $value AND "; break;
-            case "minAge": $condition .= "minAge >= $value AND "; break;
-            case "maxDistance": $condition .=  "distance <= $value AND "; break;
-            case "minDistance": $condition .= "distance >= $value AND "; break;
-            case "maxUsers": $condition .= "maxUsers <= $value AND "; break;
+    if(!empty($filters))
+        foreach($filters as $filterName => $value){
+            switch($filterName){
+                case "maxPrice": $condition .= "AND price <= $value "; break;
+                case "minPrice": $condition .= "AND price >= $value "; break;
+                case "guide": $condition .= "AND guide = $value "; break;
+                case "housing": $condition .= "AND housing = $value "; break;
+                case "minAge": $condition .= "AND minAge >= $value "; break;
+                case "maxDistance": $condition .=  "AND distance <= $value "; break;
+                case "minDistance": $condition .= "AND distance >= $value "; break;
+                case "maxUsers": $condition .= "AND maxUsers <= $value "; break;
+            }
         }
-    }
-    $condition = substr($condition,0,-4);
     $condition .= $orderby && $direction ? "ORDER BY $orderby $direction" : "";
     return $condition;
 }
@@ -189,6 +190,11 @@ function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direct
         $query .= $column.",";
     $query = substr($query,0,-1);
     $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE)";
+    // controlla prima che ci siano i filtri
+    if($filters != false){
+        // aggiungi i filtri alla ricerca
+        $condition = filters_handler($filters);
+    }
     if($filters !== false)
         $condition = $orderby !== false && $direction !== false  ? filters_handler($filters,$orderby,$direction)
             : filters_handler($filters);
