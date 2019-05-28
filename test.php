@@ -1,17 +1,11 @@
 
-
-
-
-
-
-
-
 <?php
 session_start();
 require_once "databaseUtility.php";
 require_once "productUtility.php";
 require_once  "userUtility.php";
 require_once "purchaseUtility.php";
+require_once "wishlistUtility.php";
 
 if(!isset($_SESSION['id'])){
     http_response_code(401);
@@ -25,7 +19,10 @@ else if(!isset($_GET['code'])){
 }
 else if(sha1($_GET['code']) !== getLastSafeKey($_SESSION['id'],date('Y-m-d'))){
     http_response_code(401);
-    $_SESSION['last_error'] = "the safe code is wrong or out of date";
+   // $_SESSION['last_error'] = "the safe code is wrong or out of date";
+    $_SESSION['last_error'] = "the safe code should be : ".getLastSafeKey($_SESSION['id'],date('Y-m-d')).
+        " but is : ".sha1($_GET['code']);
+
     header("Location: ../error.php?code=" . http_response_code());
 }
 
@@ -35,7 +32,13 @@ else if(sha1($_GET['code']) !== getLastSafeKey($_SESSION['id'],date('Y-m-d'))){
 <html>
     <body>
         <div align="center">
-            <?php echo "success"; ?>
+
+            <?php  /*$array = getUserWishList("shinon");
+                    foreach($array as $item)
+                        echo "item = $item ";*/
+            echo "success";
+
+            ?>
         </div>
 
     </body>

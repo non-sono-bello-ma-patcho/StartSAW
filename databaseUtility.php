@@ -167,7 +167,7 @@ function row_deletion($table,$columnKey,$toBeDeleted){
 function getLastSafeKey($username,$date){
     $con = database_connection();
     $query = "SELECT secretcode FROM safenessKey WHERE username= '$username' AND dateOfRequest = '$date' AND 
-                timeOfRequest IN ( SELECT max(timeOfRequest) FROM safenessKey)";
+                timeOfRequest IN ( SELECT max(timeOfRequest) FROM safenessKey WHERE dateOfRequest= '$date');";
     $res = send_query($con,$query);
     $row = mysqli_fetch_assoc($res);
     mysqli_close($con);

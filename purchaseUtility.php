@@ -20,7 +20,7 @@ function getAllCart(){
 
 /* TEST = PASS */
 function getUserPurchases($username){
-    return get_information_listed("purchase","item","username",$username);
+    return get_information_listed("purchases","item","username",$username);
 }
 
 /* TEST = PASS */
