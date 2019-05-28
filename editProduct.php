@@ -6,7 +6,7 @@ $source = include("../config.php");
 if(isset($_POST['editproductform'])){
 
     /* doppio controllo */
-    if(!existingProduct($_POST['eID'])){
+    if(!existingProduct($_POST['ecode'])){
         http_response_code(500);
         $_SESSION['last_error'] = "the product code is incorrect and the first check missed the error";
         header("Location: ../error.php?code=".http_response_code());
