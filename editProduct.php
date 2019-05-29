@@ -17,25 +17,23 @@ if(isset($_POST['editproductform'])){
 
 
     if(!empty($_POST["ename"]))
-        setProductName($_POST['eID'],$_POST['ename']);
+        setProductName($_POST['ecode'],$_POST['ename']);
     if(!empty($_POST["eprice"]))
-        setProductPrice($_POST['eID'],$_POST['eprice']);
+        setProductPrice($_POST['ecode'],$_POST['eprice']);
     if(!empty($_POST["edescription"]))
-        setProductDescription($_POST['eID'],$_POST['edescription']);
-    if(!empty($_POST['ehousing']))
-        setProductHousing($_POST['eID'],$_POST['ehousing']);
-    if(!empty($_POST['eguide']))
-        setProductGuide($_POST['eID'],$_POST['eguide']);
+        setProductDescription($_POST['ecode'],$_POST['edescription']);
+    setProductHousing($_POST['ecode'],$_POST['ehousing']);
+    setProductGuide($_POST['ecode'],$_POST['eguide']);
     if(!empty($_POST['distance']))
-        setProductDistance($_POST['eID'],$_POST['edistance']);
+        setProductDistance($_POST['ecode'],$_POST['edistance']);
     if(!empty($_POST['elevel']))
-        setProductLevel($_POST['eID'],$_POST['elevel']);
+        setProductLevel($_POST['ecode'],$_POST['elevel']);
     if(!empty($_POST['eminage']))
-        setProductMinAge($_POST['eID'],$_POST['eminage']);
+        setProductMinAge($_POST['ecode'],$_POST['eminage']);
     if(!empty($_POST['eduration']))
-        setProductDuration($_POST['eID'],$_POST['eduration']);
+        setProductDuration($_POST['ecode'],$_POST['eduration']);
     if(!empty($_POST['emaxusers']))
-        setProductMaxUsers($_POST['eID'],$_POST['emaxusers']);
+        setProductMaxUsers($_POST['ecode'],$_POST['emaxusers']);
     if(!empty($_FILES['eimg']['name'])) {
         $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/"; //todo aggiungere gli altri campi
         $filename = basename($_FILES['eimg']['name']);
@@ -47,8 +45,8 @@ if(isset($_POST['editproductform'])){
              header("Location: ../error.php?code=".http_response_code());
              exit;
          }
-        chmod($uploadfile,0777); //TODO TO BE CHANGED
-        setProductImg($_POST['eID'],$filename);
+        chmod($uploadfile,0774); //TODO TO BE CHANGED
+        setProductImg($_POST['ecode'],$filename);
     }
 
     header("Location: ".$source['private']);

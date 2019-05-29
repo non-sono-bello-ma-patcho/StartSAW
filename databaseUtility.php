@@ -208,13 +208,13 @@ function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direct
         // aggiungi i filtri alla ricerca
         $condition = filters_handler($filters);
     }
+
     if($filters !== false)
         $condition = $orderby !== false && $direction !== false  ? filters_handler($filters,$orderby,$direction)
             : filters_handler($filters);
     else $condition = $orderby !== false && $direction !== false ? "ORDER BY $orderby $direction" : "";
     $query .= " $condition ;";
 
-    error_log("executing query: {$query}");
 
     $res = send_query($con,$query);
     $array = array();
