@@ -5,9 +5,18 @@ $source = include("../config.php");
 
 
 if(isset($_POST['addproductform'])){
-    if(empty($_POST['Productid']) || empty($_POST['Productname'])
-        || empty($_POST['Productprice']) || empty($_POST['Productdescription'])
-        || empty($_FILES['Productimg']['name'])){ //todo aggiungere i vari controlli
+    if(empty($_POST['Productid'])
+        || empty($_POST['Productname'])
+        || empty($_POST['Productprice'])
+        || empty($_POST['Productdescription'])
+        || empty($_POST['level'])
+        || empty($_POST['duration'])
+        || empty($_POST['distance'])
+        || empty($_POST['minAge'])
+        || empty($_POST['guide'])
+        || empty($_POST['housing'])
+        || empty($_FILES['Productimg']['name'])){ //todo aggiungere maxUsers
+
         http_response_code(500);
         $_SESSION['last_error'] = "some fields have not been filled before the request and the first check missed the error";
         header("Location: ../error.php?code=".http_response_code());
@@ -27,7 +36,10 @@ if(isset($_POST['addproductform'])){
     chmod($uploadfile,0777); //TODO TO BE CHANGED
 
     insertNewProduct($_POST['Productid'],$_POST['Productname'],
-        $_POST['Productdescription'],$_POST['Productprice'],"img/productImg/".$filename);//todo dopo che andrea avrà modificato il form
+        $_POST['Productdescription'],$_POST['Productprice'],"img/productImg/".$filename,
+        0,$_POST['level'],$_POST['level'],$_POST['minAge'],
+        $_POST['distance'],$_POST['duration'], $_POST['guide'],
+        $_POST['housing'],3); //todo change last default parameter with $_POST['maxUsers']
     header("Location: ".$source['private']);
     exit;
 
