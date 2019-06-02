@@ -37,7 +37,7 @@ if(isset($_POST['addproductform'])){
 
     insertNewProduct($_POST['Productid'],$_POST['Productname'],
         $_POST['Productdescription'],$_POST['Productprice'],"img/productImg/".$filename,
-        0,$_POST['level'],$_POST['level'],$_POST['minAge'],
+        $_POST['level'],$_POST['minAge'],
         $_POST['distance'],$_POST['duration'], $_POST['guide'],
         $_POST['housing'],3); //todo change last default parameter with $_POST['maxUsers']
     header("Location: ".$source['private']);
