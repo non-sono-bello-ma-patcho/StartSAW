@@ -46,12 +46,12 @@ function getTotalCartPrice($username){
 
 /* TEST = PASS */
 function setCartQuantity($username,$item,$newQuantity){
-    return set_information("cart",array("username","item"),array($username,$item),"amount",$newQuantity);
+    set_information("cart",array("username","item"),array($username,$item),"amount",$newQuantity);
 
 }
 
 function setPurchasesQuantity($username,$item,$newQuantity){
-    return set_information("purchases",array("username","item",array($username,$item),"amount",$newQuantity));
+    set_information("purchases",array("username","item"),array($username,$item),"amount",$newQuantity);
 }
 
 /* TEST = PASS */
@@ -61,11 +61,16 @@ function removeFromCart($username,$item){
 
 /*  TO BE TESTED */
 function insertUserPurchases($username,$hashMapOfItems){ //<key = code, value = quantity>
-    $keys = array_keys($hashMapOfItems);
-    foreach ($keys as $item) {
-        if(in_array($item,getUserPurchases($username)))
-            setPurchasesQuantity($username,$item,getPurchasesQuantity($username,$item)+1);
-        else row_insertion("purchases",array($username,$item,$hashMapOfItems[$item]));
+    foreach ($hashMapOfItems as $key => $value) {
+        error_log("inserting values: $username, $key, $value");
+        if(in_array($key,getUserPurchases($username))){
+            error_log("already set, adding $value purchase to database");
+            setPurchasesQuantity($username,$key,getPurchasesQuantity($username,$key)+$value);
+        }
+        else{
+            error_log("adding new purchase");
+            row_insertion("purchases",array($username,$key,$value));
+        }
     }
 }
 

@@ -3,6 +3,8 @@ session_start();
 
 require "userUtility.php";
 require "purchaseUtility.php";
+require "wishlistUtility.php";
+
 $source = include("../config.php");
 
 function sign_in(){
@@ -26,7 +28,8 @@ if(isset($_POST['loginform'])) {
         /*  OTHER COOKIES TO BE SET END  */
         setcookie("user", $_REQUEST['username'], time() + (3600), "/");
         setcookie("cart", serialize(getUserCart($_REQUEST['username'])), time() + (3600), "/");
-        setcookie("cart-total", serialize(getTotalCartPrice($_REQUEST['username'])), time() + (3600), "/");
+        setcookie("wishlist", serialize(getUserWishList($_REQUEST['username'])), time() + (3600), "/");
+        setcookie("cart-total", getTotalCartPrice($_REQUEST['username']), time() + (3600), "/");
         $_SESSION["id"] = $_REQUEST['username'];
         header("Location: ".$source['private']);
         exit;
