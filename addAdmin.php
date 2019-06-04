@@ -1,12 +1,11 @@
 <?php
     session_start();
     require "userUtility.php";
-    $source = include("../config.php");
 
     if(isset($_POST['addadminform'])) {
         if (existingUser($_POST['userID'])) {
             setUserPrivileges(true, $_POST['userID']);
-            header("Location: " . $source['private']);
+            header("Location: ../private.php");
             exit;
         } else {
             http_response_code(500);

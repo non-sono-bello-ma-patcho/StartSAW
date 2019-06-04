@@ -1,7 +1,6 @@
 <?php
 session_start();
 require "productUtility.php";
-$source = include("../config.php");
 
 if(isset($_POST['editproductform'])){
 
@@ -12,9 +11,6 @@ if(isset($_POST['editproductform'])){
         header("Location: ../error.php?code=".http_response_code());
         exit;
     }
-
-
-
 
     if(!empty($_POST["ename"]))
         setProductName($_POST['ecode'],$_POST['ename']);
@@ -28,14 +24,14 @@ if(isset($_POST['editproductform'])){
         setProductDistance($_POST['ecode'],$_POST['edistance']);
     if(!empty($_POST['elevel']))
         setProductLevel($_POST['ecode'],$_POST['elevel']);
-    if(!empty($_POST['eminage']))
-        setProductMinAge($_POST['ecode'],$_POST['eminage']);
+    if(!empty($_POST['eminAge']))
+        setProductMinAge($_POST['ecode'],$_POST['eminAge']);
     if(!empty($_POST['eduration']))
         setProductDuration($_POST['ecode'],$_POST['eduration']);
     if(!empty($_POST['emaxusers']))
         setProductMaxUsers($_POST['ecode'],$_POST['emaxusers']);
     if(!empty($_FILES['eimg']['name'])) {
-        $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/"; //todo aggiungere gli altri campi
+        $uploaddir = "../img/productImg/"; //todo aggiungere gli altri campi
         $filename = basename($_FILES['eimg']['name']);
         $uploadfile = $uploaddir.$filename;
 
@@ -49,7 +45,9 @@ if(isset($_POST['editproductform'])){
         setProductImg($_POST['ecode'],$filename);
     }
 
-    header("Location: ".$source['private']);
+    setProductActive($_POST['ecode'], true);
+
+    header("Location: ../private.php");
     exit;
 }else{
     http_response_code(503);

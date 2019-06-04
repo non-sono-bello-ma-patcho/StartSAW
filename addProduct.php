@@ -1,8 +1,6 @@
 <?php
 session_start();
 require "productUtility.php";
-$source = include("../config.php");
-
 
 if(isset($_POST['addproductform'])){
     if(empty($_POST['Productid'])
@@ -23,7 +21,7 @@ if(isset($_POST['addproductform'])){
         exit;
     }
 
-    $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/productImg/"; //TODO CHANGE PATH FOR THE RIBAUDO'S SERVER
+    $uploaddir = "../img/productImg/"; //TODO CHANGE PATH FOR THE RIBAUDO'S SERVER
     $filename = basename($_FILES['Productimg']['name']);
     $uploadfile = $uploaddir.$filename;
 
@@ -40,7 +38,7 @@ if(isset($_POST['addproductform'])){
         $_POST['level'],$_POST['minAge'],
         $_POST['distance'],$_POST['duration'], $_POST['guide']==='y',
         $_POST['housing']==='y',3); //todo change last default parameter with $_POST['maxUsers']
-    header("Location: ".$source['private']);
+    header("Location: ../private.php");
     exit;
 
 }else{

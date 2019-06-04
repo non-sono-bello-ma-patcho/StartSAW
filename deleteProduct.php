@@ -18,13 +18,14 @@ if(isset($_POST['deleteproductform'])){
     }
 
     removeProduct($_POST['dcode']);
-    header("Location: ".$source['private']);
+    header("Location: ../private.php");
     exit;
 
 }
 else{
     http_response_code(503);
-    $_SESSION['last_error'] = "deleteproductform is not set";
+    $val = $_POST['deleteproductform'];
+    $_SESSION['last_error'] = "deleteproductform is not set: $val";
     header("Location: ../error.php?code=".http_response_code());
     exit;
 }

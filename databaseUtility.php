@@ -65,9 +65,9 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
 
 function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
-    $cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,$key);
-    //$cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
-    $query = "SELECT ".$column." FROM ".$table." WHERE ".$cond;
+//    $cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,key);
+    $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
+    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
     $res = send_query($con,$query);
     $array = array();
     $index = 0;

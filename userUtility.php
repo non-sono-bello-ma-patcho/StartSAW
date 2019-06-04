@@ -93,8 +93,7 @@ function setUserImg($newPath,$username){
 
 
 function insertNewUser($name,$surname,$username,$email,$password){
-	row_insertion("users", array(trim($name),trim($surname),trim($username),trim($email),sha1(trim($password)),
-        "img/default-account.png","Hey there! I am using Herschel","Location has not been selected yet",false));
+	row_insertion("users", array(trim($name),trim($surname),trim($username),trim($email),sha1(trim($password)), "img/profileImg/default-account.png","Hey there! I am using Herschel","Location has not been selected yet",false));
 }
 
 function insertNewSafeKey($username,$safekey,$date,$time){
