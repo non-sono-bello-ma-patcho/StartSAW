@@ -118,9 +118,9 @@ function get_Entire_Column($table,$column){
     return  $array;
 }
 
-function get_All($table){
+function get_All($table, $condition){
     $con = database_connection();
-    $query = "SELECT * FROM ".$table;
+    $query = "SELECT * FROM $table WHERE $condition";
     $res = send_query($con,$query);
     $array = array();
     while( $row = mysqli_fetch_assoc($res)){
