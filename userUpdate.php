@@ -14,18 +14,18 @@
             setUserLocation($_POST['modifyLocation'],$_SESSION['id']);
         if(!empty($_POST["modifyUsername"]))
             setUserUsername($_POST['modifyUsername'],$_SESSION['id']);
-        if(!empty($_FILES['photo']['name'])) {
+        if(!empty($_FILES['modifyImage']['name'])) {
             $uploaddir = $_SERVER['DOCUMENT_ROOT']."/img/profileImg/";
-            $filename = basename($_FILES['photo']['name']);
+            $filename = basename($_FILES['modifyImage']['name']);
             $uploadfile = $uploaddir.$filename;
 
-            if (!move_uploaded_file($_FILES['photo']['tmp_name'], $uploadfile)) {
+            if (!move_uploaded_file($_FILES['modifyImage']['tmp_name'], $uploadfile)) {
                 http_response_code(500);
                 $_SESSION['last_error'] = "failed to upload the img,check the path or the MIME type";
                 header("Location: ../../error.php?code=".http_response_code());
                 exit;
             }
-            chmod($uploadfile,0777); //TODO TO BE CHANGED
+            chmod($uploadfile,0774); //TODO TO BE CHANGED
             setUserImg($filename, $_SESSION['id']);
         }
         header("Location: ".$source['private']);
