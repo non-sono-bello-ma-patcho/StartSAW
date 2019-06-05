@@ -1,6 +1,5 @@
 <?php
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////AUXILIARY METHODS/////////////////////////////////////////////////////////
@@ -178,19 +177,47 @@ function getLastSafeKey($username,$date){
 
 function filters_handler($filters,$orderby=false,$direction=false){
     $condition ="";
-    if(!empty($filters))
-        foreach($filters as $filterName => $value){
-            switch($filterName){
-                case "maxPrice": $condition .= "AND price <= $value "; break;
-                case "minPrice": $condition .= "AND price >= $value "; break;
-                case "guide": $condition .= "AND guide = $value "; break;
-                case "housing": $condition .= "AND housing = $value "; break;
-                case "minAge": $condition .= "AND minAge >= $value "; break;
-                case "maxDistance": $condition .=  "AND distance <= $value "; break;
-                case "minDistance": $condition .= "AND distance >= $value "; break;
-                case "maxUsers": $condition .= "AND maxUsers <= $value "; break;
+    if(!empty($filters)) {
+
+        foreach ($filters as $filterName => $value) {
+           /* if($value !== "planet") {
+                $_SESSION['last_error'] = "sono nel for, $filterName = $value ";
+                header("Location: ../error.php?code=500");
+                exit;
+            }*/
+
+
+            switch ($filterName) {
+                case "maxPrice":
+                    $condition .= "AND price <= $value ";
+                    break;
+                case "minPrice":
+                    $condition .= "AND price >= $value ";
+                    break;
+                case "guide":
+                    $condition .= "AND guide = $value ";
+                    break;
+                case "housing":
+                    $condition .= "AND housing = $value ";
+                    break;
+                case "minAge":
+                    $condition .= "AND minAge >= $value ";
+                    break;
+                case "maxDistance":
+                    $condition .= "AND distance <= $value ";
+                    break;
+                case "minDistance":
+                    $condition .= "AND distance >= $value ";
+                    break;
+                case "maxUsers":
+                    $condition .= "AND maxUsers <= $value ";
+                    break;
+                case "level":
+                    $condition .= "AND level = $value";
+                    break;
             }
         }
+    }
     $condition .= $orderby && $direction ? "ORDER BY $orderby $direction" : "";
     return $condition;
 }
