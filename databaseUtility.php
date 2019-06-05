@@ -71,10 +71,11 @@ function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $array = array();
     $index = 0;
     while( $row = mysqli_fetch_assoc($res)){
-        foreach($row as $key => $value) {
+        array_push($array, $row);
+        /*foreach($row as $key => $value) {
             $array[$index] = $column = "*" ? $row[$key] : $row[$column];
             $index++;
-        }
+        }*/
     }
     mysqli_close($con);
     return  $array;
@@ -225,22 +226,18 @@ function filters_handler($filters,$orderby=false,$direction=false){
 
 function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction,$filters=false){
     $con = database_connection();
-    $query = "SELECT ".$resultColumn." FROM ".$table." WHERE MATCH(";
+    $query = "SELECT $resultColumn FROM $table WHERE active and MATCH(";
+    $query.= array_pop($columnMatch);
     foreach ($columnMatch as $column)
-        $query .= $column.",";
-    $query = substr($query,0,-1);
-    $query .= ") AGAINST('+".$search."' IN NATURAL LANGUAGE MODE)";
-    // controlla prima che ci siano i filtri
-    if($filters != false){
-        // aggiungi i filtri alla ricerca
-        $condition = filters_handler($filters);
-    }
+        $query .= ", $column";
+    $query .= ") AGAINST('+$search' IN NATURAL LANGUAGE MODE)";
 
     if($filters !== false)
         $condition = $orderby !== false && $direction !== false  ? filters_handler($filters,$orderby,$direction)
             : filters_handler($filters);
     else $condition = $orderby !== false && $direction !== false ? "ORDER BY $orderby $direction" : "";
     $query .= " $condition ;";
+
 
 
     $res = send_query($con,$query);
