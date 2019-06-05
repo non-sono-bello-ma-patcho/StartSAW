@@ -33,7 +33,7 @@ if(isset($_POST['signupform'])){
 	sign_up();
 	setcookie("user", $_REQUEST['username'], time() + (3600), "/");
 	$_SESSION["id"] = $_REQUEST['username'];
-    $_SERVER['PHP_AUTH_USER'] = true;
+    //$_SERVER['PHP_AUTH_USER'] = true;
     /* 	OTHER COOKIES TO BE SET START*/
 		/*          .
 		/*			.
@@ -41,7 +41,7 @@ if(isset($_POST['signupform'])){
 		/*			.					 */
 		/*  OTHER COOKIES TO BE SET END  */
     send_mail(1,$_REQUEST['email']);
-    header("Location: ".$source['private']);
+    header("Location: ../error.php");
 	exit();
 }
 else{

@@ -16,7 +16,7 @@ if(isset($_REQUEST['changepasswordform'])){
                 exit;
             } else {
                 setUserPswd($_REQUEST['new_password'], $_SESSION['id']);
-                header("Location: ".$source['private']);
+                header("Location: ../private.php");
                 exit;
             }
         }

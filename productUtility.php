@@ -14,8 +14,8 @@ function getEntireProductColumn($column){
 	return get_Entire_Column("products", $column);
 }
 
-function getAllProducts(){
-	return get_All("products");
+function getAllProducts($condition){
+	return get_All("products", $condition);
 }
 
 function getProductName($product_code){
@@ -31,7 +31,8 @@ function getProductPrice($product_code){
 }
 
 function getProductImg($product_code){
-	return get_information("products","img","code",$product_code);
+    $path = get_information("products","img","code",$product_code);
+	return $path === ""? "./img/imgProduct/default-product.jpg" : $path;
 }
 
 function getProductRelevance($product_code){
@@ -64,6 +65,10 @@ function getProductMinAge($product_code){
 
 function getProductHousing($product_code){
 	return get_information("products","housing","code",$product_code);
+}
+
+function getProductActive($product_code){
+    return get_information("products","active","code",$product_code);
 }
 
 /* SETTER */
@@ -117,15 +122,20 @@ function setProductHousing($product_code,$new_housing){
 	set_information("products","code",$product_code,"housing",$new_housing);
 }
 
+function setProductActive($product_code,$active){
+    set_information("products","code",$product_code,"active",$active);
+}
+
 
 function removeProduct($product_code){
-	row_deletion("products","code",$product_code);
+	setProductActive($product_code, false);
+	setProductPrice($product_code, 0);
 }
 /* NEW ITEM INSERTION */
 
 function insertNewProduct($code,$name,$description,$price,$img_path,$level,$minAge,$distance,$duration,$guide,$housing,$maxUsers){
 	row_insertion("products", array(trim($code),trim($name),trim($description),trim($price),trim($img_path),0,(int)trim($level),
-		(int)trim($minAge),(int)trim($distance),(int)trim($duration),$guide,$housing,(int)trim($maxUsers)));
+		(int)trim($minAge),(int)trim($distance),(int)trim($duration),$guide,$housing,(int)trim($maxUsers),1));
 }
 
 function existingProduct($code){

@@ -1,62 +1,44 @@
 
-
-
-
-
-
-
-
 <?php
 session_start();
 require_once "databaseUtility.php";
 require_once "productUtility.php";
 require_once  "userUtility.php";
 require_once "purchaseUtility.php";
+require_once "wishlistUtility.php";
 
-
-if(!isset($_SERVER['PHP_AUTH_USER'])){
+if(!isset($_SESSION['id'])){
     http_response_code(401);
-    header("Location: ../error.php?code=".http_response_code());
+    $_SESSION['last_error'] = "trying to access to private.php without passing trough sign in or sign up";
+    header("Location: ../error.php?code=" . http_response_code());
 }
+else if(!isset($_GET['code'])){
+    http_response_code(401);
+    $_SESSION['last_error'] = "trying to access to test.php without permissions";
+    header("Location: ../error.php?code=" . http_response_code());
+}
+else if(sha1($_GET['code']) !== getLastSafeKey($_SESSION['id'],date('Y-m-d'))){
+    http_response_code(401);
+   // $_SESSION['last_error'] = "the safe code is wrong or out of date";
+    $_SESSION['last_error'] = "the safe code should be : ".getLastSafeKey($_SESSION['id'],date('Y-m-d')).
+        " but is : ".sha1($_GET['code']);
+
+    header("Location: ../error.php?code=" . http_response_code());
+}
+
 ?>
 
 
 <html>
     <body>
         <div align="center">
-            <?php
-            /*
-                  $myarray = array();
-                  $myarray = getEntireProductsColumn("name");
-                  foreach ($myarray as $item){
-                      echo $item." ///// ";
-                  }
 
-            $myarray2 = getEntireProductRow("1");
-            foreach ($myarray2 as $item){
-                echo $item." ///// ";
-            }
+            <?php  /*$array = getUserWishList("shinon");
+                    foreach($array as $item)
+                        echo "item = $item ";*/
+            echo "success";
 
-            $myarray = array();
-            $myarray = getAllProducts();
-            foreach ($myarray as $item){
-                echo $item." ///// ";
-            }
-
-            $myarray = array();
-            $myarray = getAllUser();
-            foreach ($myarray as $item){
-                echo $item." / ".readline_on_new_line();
-            }
-            */
-           // echo getTotalCartPrice("root2");
-
-            $myarray = array();
-            $myarray = getEntireCartColumn("item");
-            foreach ($myarray as $item) {
-                echo $item . " / " . readline_on_new_line();
-            }
-                  ?>
+            ?>
         </div>
 
     </body>
