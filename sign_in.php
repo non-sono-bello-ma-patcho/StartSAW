@@ -29,10 +29,12 @@ if(isset($_POST['loginform'])) {
         exit;
     }else if(log === false){
         http_response_code(400);
+        setcookie("user", $_REQUEST['username'], time() + (300), "/");
         header("Location: ../login.php?code=".http_response_code()."&missing=username");
         exit;
     }else{
         http_response_code(400);
+        setcookie("user", $_REQUEST['username'], time() + (300), "/");
         setcookie("attempteduser", $_REQUEST['username'], time() + (60), "/");
         header("Location: ../login.php?code=".http_response_code()."&missing=password");
         exit;

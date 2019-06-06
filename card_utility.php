@@ -29,10 +29,10 @@ function computeCard($code = false, $name = false, $price = false, $description 
 
     switch ($card_level) {
         case '1':
-            $lev = 'beginner';
+            $lev = 'starter';
             break;
         case '2':
-            $lev = 'medium';
+            $lev = 'average';
             break;
         default:
             $lev = 'expert';
