@@ -40,8 +40,9 @@ if(isset($_POST['signupform'])){
 		/*			.
 		/*			.					 */
 		/*  OTHER COOKIES TO BE SET END  */
+
     send_mail(1,$_REQUEST['email']);
-    header("Location: ../error.php");
+    header("Location: ../private.php");
 	exit();
 }
 else{

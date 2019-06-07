@@ -35,7 +35,6 @@ if(isset($_POST['loginform'])) {
     }else{
         http_response_code(400);
         setcookie("user", $_REQUEST['username'], time() + (300), "/");
-        setcookie("attempteduser", $_REQUEST['username'], time() + (60), "/");
         header("Location: ../login.php?code=".http_response_code()."&missing=password");
         exit;
     }
