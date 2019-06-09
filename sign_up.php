@@ -23,6 +23,14 @@ if(isset($_POST['signupform'])){
         header("Location: ../error.php?code=".http_response_code());
         exit;
     }
+	
+    if(existingMail($_REQUEST['email'])){
+        http_response_code(409);
+        $_SESSION['last_error'] = "email already taken,the first check missed the error";
+        header("Location: ../error.php?code=".http_response_code());
+        exit;
+    }
+	
     if(trim($_REQUEST['pswd']) != trim($_REQUEST['pswdConfirm'])){
         http_response_code(500);
         $_SESSION['last_error'] = "password doesn't match, the first check missed the error";
