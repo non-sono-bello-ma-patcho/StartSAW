@@ -27,7 +27,7 @@ if(isset($_POST['loginform'])) {
         $_SESSION["id"] = $_REQUEST['username'];
         header("Location: ../private.php");
         exit;
-    }else if(log === false){
+    }else if($log === false){
         http_response_code(400);
         setcookie("user", $_REQUEST['username'], time() + (300), "/");
         header("Location: ../login.php?code=".http_response_code()."&missing=username");

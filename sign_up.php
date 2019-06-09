@@ -40,6 +40,10 @@ if(isset($_POST['signupform'])){
 		/*			.
 		/*			.					 */
 		/*  OTHER COOKIES TO BE SET END  */
+    setcookie("user", $_REQUEST['username'], time() + (3600), "/");
+    setcookie("cart", serialize(getUserCart($_REQUEST['username'])), time() + (3600), "/");
+    setcookie("wishlist", serialize(getUserWishList($_REQUEST['username'])), time() + (3600), "/");
+    setcookie("cart-total", getTotalCartPrice($_REQUEST['username']), time() + (3600), "/");
 
     send_mail(1,$_REQUEST['email']);
     header("Location: ../private.php");
