@@ -2,7 +2,13 @@
 require_once "databaseUtility.php";
 
 function getUserWishList($username){
-    return get_information_listed("wishlist","item","username",$username);
+    $wishlist = get_information_listed("wishlist","item","username",$username);
+    $result = [];
+    while(($obj = array_pop($wishlist)) !== null)
+        foreach ($obj as $key=>$value){
+            array_push($result, $value);
+        }
+    return $result;
 }
 
 function removeFromWishList($username,$item){
