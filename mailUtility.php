@@ -37,7 +37,7 @@ function reset_password_message($queryString){
     $message .= "<h2><a style='background-color: #3d348b;box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1);padding: 1.25rem 2rem;
 font-size: 80%;text-transform: uppercase;letter-spacing: .15rem;border: 0;color: #fff;display: inline-block;border-radius: .25rem;
 transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;outline: 0;
-text-decoration: none;' href='localhost/changePassword.php?code=$queryString'>Change Password</a></h2>"; //TODO set the correct change password URL
+text-decoration: none;' href='https://webdev.dibris.unige.it/~S4326906/changePassword.php?code=$queryString'>Change Password</a></h2>"; //TODO set the correct change password URL
     return core_message($message);
 }
 //https://github.com/non-sono-bello-ma-patcho/

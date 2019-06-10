@@ -6,6 +6,12 @@
  * Date: 21/03/19
  * Time: 23.14
  */
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+require_once "purchaseUtility.php";
+require_once "wishlistUtility.php";
 
 
 function computeCard($code = false, $name = false, $price = false, $description = false, $img = false, $active = false, $level=false, $housing=false, $guide=false, $tab = false)
@@ -94,7 +100,7 @@ function initFirstAction($tab, $action_1, $card_code, $card_active)
             $action_1->target = 'cart';
             $action_1->color = 'text-warning';
             $action_1->id = $card_code;
-            if (array_search($card_code, unserialize($_COOKIE['cart'])) === false) {
+            if (in_array("$card_code", unserialize($_COOKIE['cart'])) === false) {
                 // card non nel carrello
                 $action_1->icon = 'far fa-star';
                 $action_1->cmd = 'add';
@@ -104,7 +110,7 @@ function initFirstAction($tab, $action_1, $card_code, $card_active)
             }
             break;
         case 'wishlist':
-            if (array_search($card_code, unserialize($_COOKIE['cart'])) === false) {
+            if (in_array("$card_code", unserialize($_COOKIE['cart'])) === false) {
                 // card non nel carrello
                 $action_1->icon = 'far fa-star';
                 $action_1->cmd = 'add';
@@ -140,7 +146,7 @@ function initSecondAction($tab, $action_2, $card_code, $card_active)
             $action_2->target = 'wishlist';
             $action_2->color = 'text-danger';
             $action_2->id = $card_code;
-            if (array_search($card_code, unserialize($_COOKIE['wishlist'])) === false) {
+            if (in_array("$card_code", unserialize(($_COOKIE['wishlist']))) === false) {
                 // card non nel carrello
                 $action_2->icon = 'far fa-heart';
                 $action_2->cmd = 'add';

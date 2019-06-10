@@ -15,7 +15,7 @@ function getEntireCartColumn($column){
 }
 
 function getAllCart(){
-    return get_All("cart");
+    return get_All("cart", "1");
 }
 
 /* TEST = PASS */
@@ -25,7 +25,13 @@ function getUserPurchases($username){
 
 /* TEST = PASS */
 function getUserCart($username){
-    return get_information_listed("cart c inner join products p on c.item = p.code","item, description, price, name","username",$username);
+    $cart = get_information_listed("cart","item","username",$username);
+    $result = [];
+    while(($obj = array_pop($cart)) !== null)
+        foreach ($obj as $key=>$value){
+            array_push($result, $value);
+        }
+    return $result;
 }
 
 /*  TO BE TESTED */
