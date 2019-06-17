@@ -20,7 +20,13 @@ function getAllCart(){
 
 /* TEST = PASS */
 function getUserPurchases($username){
-    return get_information_listed("purchases","item","username",$username);
+    $cart = get_information_listed("purchases","item","username",$username);
+    $result = [];
+    while(($obj = array_pop($cart)) !== null)
+        foreach ($obj as $key=>$value){
+            array_push($result, $value);
+        }
+    return $result;
 }
 
 /* TEST = PASS */

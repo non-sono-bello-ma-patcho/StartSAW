@@ -53,12 +53,10 @@ function error_report($text){
     exit;
 }
 
-function send_query($con,$text,$types,$params,$queryType = "select"){
+function send_query($con,$text,$types = false,$params = false,$queryType = "select"){
     if($stmt = $con->prepare($text)){
-      /* $_SESSION['last_error']= "Failed to execute the query: $text".PHP_EOL." params = $params[0] , $params[1] , types = $types";
-       header("Location: ../error.php?code=500");
-       exit;*/
-        $stmt->bind_param($types,...$params);
+        if($types !== false && $params !== false)
+            $stmt->bind_param($types,$params);
         $stmt->execute();
         $stmt_result= $stmt->get_result();
         if(!$stmt_result)
@@ -105,34 +103,15 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
 
 function get_information_listed($table, $column, $columnKey, $key, $like=false){
     $con = database_connection();
-    $types="";
+    $params = $types="";
     $condition = $like? $columnKey." = like\"% ? ;" : generate_condition($columnKey,$key,$params,$types);
     $text = "SELECT $column FROM $table WHERE $condition";
-    $stmt_result = send_query($con,$text,$types,$params);
+    $stmt_result = send_query($con,$text,$types, $params);
+    $my_results = [];
     while($row = $stmt_result->fetch_assoc()){
         array_push($my_results,$row);
     }
     return $my_results;
-
-
-
-
-    /*
-//    $cond = $like? $columnKey." = like\"%".$key.";" : generate_condition($columnKey,key);
-    $cond = $like? " like \"%".$key."%\";" : " = \"".$key."\";";
-    $query = "SELECT ".$column." FROM ".$table." WHERE ".$columnKey.$cond;
-    $res = send_query($con,$query);
-    $array = array();
-    $index = 0;
-    while( $row = mysqli_fetch_assoc($res)){
-        array_push($array, $row);
-        /*foreach($row as $key => $value) {
-            $array[$index] = $column = "*" ? $row[$key] : $row[$column];
-            $index++;
-        }*/
-   /* }
-    mysqli_close($con);
-    return  $array;*/
 }
 
 
@@ -141,6 +120,7 @@ function get_multiple_information($table,$column,$columnKey=false,$key=false){
     $con = database_connection();
     $types="";
     $text = "SELECT ";
+    $my_results = [];
     foreach($column as $item){
         $text .= $item.",";
     }
@@ -162,25 +142,6 @@ function get_multiple_information($table,$column,$columnKey=false,$key=false){
         array_push($my_results,$row);
     }
     return $my_results;
-
-/*
-    $query = "SELECT ";
-    foreach($column as $item){
-        $query .= $item.",";
-    }
-    $query = substr($query,0,-1);
-    if($columnKey && $key) {
-        $condition = generate_condition($columnKey,$key);
-        $query .= " FROM " . $table . " WHERE " . $condition;
-    }
-    else $query .=" FROM ".$table;
-    $res = send_query($con,$query);
-    $array = array();
-    while( $row = mysqli_fetch_assoc($res)){
-        array_push($array,$row);
-    }
-    mysqli_close($con);
-    return $array;*/
 }
 
 function get_Entire_Column($table,$column){
@@ -189,45 +150,24 @@ function get_Entire_Column($table,$column){
     $text = "SELECT $column FROM $table";
     if(! $stmt = $con->prepare($text)) error_report($text);
     $stmt->execute();
+    $my_results = [];
     if(! $stmt_result = $stmt->get_result()) error_report($text);
     while($row = $stmt_result->fetch_assoc()){
         array_push($my_results,$row);
     }
     return $my_results;
-    /*
-    $query = "SELECT $column FROM ".$table;
-    $res = send_query($con,$query);
-    $array = array();
-    $index = 0;
-    while( $row = mysqli_fetch_assoc($res)){
-        $array[$index] = $row[$column];
-        $index++;
-    }
-    mysqli_close($con);
-    return  $array;
-    */
 }
 
-function get_All($table, $condition,$types,$params){
+function get_All($table, $condition,$params = false){
     $con = database_connection();
     $types="";
     $text = "SELECT * FROM $table WHERE $condition";
     $stmt_result = send_query($con,$text,$types,$params);
+    $my_results = [];
     while($row = $stmt_result->fetch_assoc()){
         array_push($my_results,$row);
     }
     return $my_results;
-
-    /*
-    $query = "SELECT * FROM $table WHERE $condition";
-    $res = send_query($con,$query);
-    $array = array();
-    while( $row = mysqli_fetch_assoc($res)){
-        array_push($array,$row);
-    }
-    mysqli_close($con);
-    return  $array;
-    */
 }
 
 function set_information($table, $columnKey, $key, $columnToBeSet, $newValue, $numeric=false){
@@ -265,19 +205,6 @@ function row_insertion($table, $toBeInsert){
     $text = rtrim($text,',');
     $text .= ")";
     send_query($con,$text,$types,$params,"insert");
-
-        /*
-	$query ="INSERT INTO ".$table." VALUES (";
-	foreach ($toBeInsert as $value) {
-	    if($value instanceof Integer) //TODO VERIFICARE LA CORRETTEZZA CON IN NUMERI INTERI
-	        $query .= $value.",";
-		else $query .= "\"".$value."\",";
-	}
-	$query = rtrim($query,',');
-	$query .= ");";
-    send_query($con,$query);
-    mysqli_close($con);
-        */
 }
 
 function row_deletion($table,$columnKey,$toBeDeleted){
