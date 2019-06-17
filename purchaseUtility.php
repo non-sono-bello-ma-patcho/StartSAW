@@ -20,7 +20,13 @@ function getAllCart(){
 
 /* TEST = PASS */
 function getUserPurchases($username){
-    return get_information_listed("purchases","item","username",$username);
+    $cart = get_information_listed("purchases","item","username",$username);
+    $result = [];
+    while(($obj = array_pop($cart)) !== null)
+        foreach ($obj as $key=>$value){
+            array_push($result, $value);
+        }
+    return $result;
 }
 
 /* TEST = PASS */
@@ -67,13 +73,10 @@ function removeFromCart($username,$item){
 /*  TO BE TESTED */
 function insertUserPurchases($username,$hashMapOfItems){ //<key = code, value = quantity>
     foreach ($hashMapOfItems as $key => $value) {
-        error_log("inserting values: $username, $key, $value");
-        if(in_array($key,getUserPurchases($username))){
-            error_log("already set, adding $value purchase to database");
+        if(in_array("$key",getUserPurchases($username))){
             setPurchasesQuantity($username,$key,getPurchasesQuantity($username,$key)+$value);
         }
         else{
-            error_log("adding new purchase");
             row_insertion("purchases",array($username,$key,$value));
         }
     }
