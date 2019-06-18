@@ -59,8 +59,8 @@ function send_query($con,$text,$types = false,$params = false,$queryType = "sele
             $stmt->bind_param($types,$params);
         $stmt->execute();
         $stmt_result= $stmt->get_result();
-        if(!$stmt_result)
-            if($queryType ==="select") error_report($text);
+        if($stmt_result === false)
+            if($queryType ==="select") error_report($text); //TODO FORSE DA MODIFICARE, QUERY VUOTA OK
 
         $stmt->close();
         return $stmt_result;
@@ -197,8 +197,8 @@ function row_insertion($table, $toBeInsert){
     foreach ($toBeInsert as $value){
         if(is_numeric($value))
             $types .="i";
-        $types .= "s";
-        $params [$index] = $toBeInsert;
+        else $types .= "s";
+        $params [$index] = $value;
         $text .= "?,";
         $index++;
     }
