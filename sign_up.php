@@ -1,7 +1,9 @@
 <?php
 
-require "userUtility.php";
-require "mailUtility.php";
+require_once "userUtility.php";
+require_once "purchaseUtility.php";
+require_once "wishlistUtility.php";
+require_once "mailUtility.php";
 $source = include("../config.php");
 session_start();
 

@@ -105,6 +105,11 @@ function existingUser($username){
 
 }
 
+function existingMail($username){
+    return get_information("users","email","email",trim($username)) !== null;
+
+}
+
 function isAdmin($username){
 	return get_information("users","admin","username",trim($username));
 }
