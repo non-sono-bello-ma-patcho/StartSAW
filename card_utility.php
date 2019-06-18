@@ -14,6 +14,8 @@ require_once "purchaseUtility.php";
 require_once "wishlistUtility.php";
 
 
+
+//crea la card con le informazioni del json passatole
 function computeCard($code = false, $name = false, $price = false, $description = false, $img = false, $active = false, $level=false, $housing=false, $guide=false, $tab = false)
 {
     $action_1 = new stdClass();

@@ -26,7 +26,7 @@ function generate_condition($column , $key, &$params,&$types){
     $keyIndex = 0;
     if(is_array($column) && is_array($key)){
         foreach($column as $singleColumn) {
-            $condition .=  "$singleColumn = ? AND";
+            $condition .=  "$singleColumn = ? AND ";
             $params[$index] = $key[$keyIndex];
             $types.= is_numeric($key[$keyIndex])? "i" : "s";
             $index++;
@@ -39,10 +39,6 @@ function generate_condition($column , $key, &$params,&$types){
         $params[$index] = $key;
         $types.= is_numeric($key[$keyIndex])? "i" : "s";
     }
-/*
-    $_SESSION['last_error'] = "condition:  $condition   paramarray = ".print_r($params)."  types: $types";
-    header("Location: ../error.php?code=500");
-    exit;*/
     return $condition;
 }
 
@@ -59,8 +55,8 @@ function send_query($con,$text,$types = false,$params = false,$queryType = "sele
             $stmt->bind_param($types,$params);
         $stmt->execute();
         $stmt_result= $stmt->get_result();
-        if($stmt_result === false)
-            if($queryType ==="select") error_report($text); //TODO FORSE DA MODIFICARE, QUERY VUOTA OK
+        //if($stmt_result === false)
+           // if($queryType ==="select") error_report($text); //TODO FORSE DA MODIFICARE, QUERY VUOTA OK
 
         $stmt->close();
         return $stmt_result;
@@ -84,21 +80,8 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
     $condition = generate_condition($columnKey,$key,$params,$types);
     $text = "SELECT $column FROM $table WHERE $condition";
     $stmt_result = send_query($con,$text,$types,$params);
-    //call_user_func_array(array($stmt, 'bind_param'), $params);
     $row = $stmt_result->fetch_assoc();
     return $entireRow? $row : $row[$column];
-
-
-    /*
-	$con = database_connection();
-	$condition = generate_condition($columnKey,$key);
-	$query = "SELECT ".$column." FROM ".$table." WHERE ".$condition.";";
-    $res = send_query($con,$query);
-	$row = mysqli_fetch_assoc($res);
-	mysqli_close($con);
-	// if entireRow is set, ignores column and return entire row:
-	return  $entireRow? $row : $row[$column];
-    */
 }
 
 function get_information_listed($table, $column, $columnKey, $key, $like=false){
@@ -177,14 +160,6 @@ function set_information($table, $columnKey, $key, $columnToBeSet, $newValue, $n
     $condition =  generate_condition($columnKey,$key,$params,$types);
 	$text = "UPDATE $table SET  $columnToBeSet = ? WHERE $condition";
 	send_query($con,$text,$types,$params,"update");
-
-
-	/*
-    $condition = generate_condition($columnKey,$key);
-    $toupdate = $numeric? $newValue : "\"".$newValue."\"";
-    $query = "UPDATE ".$table." SET ".$columnToBeSet." = ".$toupdate." WHERE ".$condition.";";
-	send_query($con,$query);
-	mysqli_close($con);*/
 }
 
 
@@ -212,13 +187,6 @@ function row_deletion($table,$columnKey,$toBeDeleted){
     $condition = generate_condition($columnKey,$toBeDeleted,$params,$types);
     $text = "DELETE FROM $table WHERE $condition";
     send_query($con,$text,$types,$params,"delete");
-    /*
-    $condition = generate_condition($columnKey,$toBeDeleted);
-    $query = "DELETE FROM ".$table." WHERE ".$condition.";";
-    error_log("executing query: {$query}");
-    send_query($con,$query);
-    mysqli_close($con);
-    */
 }
 
 
@@ -233,49 +201,63 @@ function getLastSafeKey($username,$date){
 
 
 
-function filters_handler($filters,$orderby=false,$direction=false){
+function filters_handler($filters,&$types,&$params,$orderby=false,$direction=false){
     $condition ="";
+    $index = 1;
     if(!empty($filters)) {
-
         foreach ($filters as $filterName => $value) {
-           /* if($value !== "planet") {
-                $_SESSION['last_error'] = "sono nel for, $filterName = $value ";
-                header("Location: ../error.php?code=500");
-                exit;
-            }*/
-
-
             switch ($filterName) {
-                case "maxPrice":
-                    $condition .= "AND price <= $value ";
-                    break;
-                case "minPrice":
-                    $condition .= "AND price >= $value ";
-                    break;
-                case "guide":
-                    $condition .= "AND guide = $value ";
-                    break;
-                case "housing":
-                    $condition .= "AND housing = $value ";
-                    break;
-                case "minAge":
-                    $condition .= "AND minAge >= $value ";
-                    break;
-                case "maxDistance":
-                    $condition .= "AND distance <= $value ";
-                    break;
-                case "minDistance":
-                    $condition .= "AND distance >= $value ";
-                    break;
-                case "maxUsers":
-                    $condition .= "AND maxUsers <= $value ";
-                    break;
-                case "level":
-                    $condition .= "AND level = $value";
-                    break;
+                    case "maxPrice":
+                        $condition .= "AND price <= ? ";
+                        $types.= "i";
+                        $params[$index] = $value;
+                        break;
+                    case "minPrice":
+                        $condition .= "AND price >= ? ";
+                        $types.= "i";
+                        $params[$index] = $value;
+                        break;
+                    case "guide":
+                        $condition .= "AND guide = ? ";
+                        $types.= "i";
+                        $params[$index] = intval($value);
+                        break;
+                    case "housing":
+                        $condition .= "AND housing = ? ";
+                        $types.= "i";
+                        $params[$index] = intval($value);
+                        break;
+                    case "minAge":
+                        $condition .= "AND minAge >= ? ";
+                        $types.= "i";
+                        $params[$index] = $value;
+                        break;
+                    case "maxDistance":
+                        $condition .= "AND distance <= ? ";
+                        $types.= "i";
+                        $params[$index] = $value;
+                        break;
+                    case "minDistance":
+                        $condition .= "AND distance >= ? ";
+                        $types.= "i";
+                        $params[$index] = $value;
+                        break;
+                    case "maxUsers":
+                        $condition .= "AND maxUsers <= ? ";
+                        $types.= "i";
+                        $params[$index] = $value;
+                        break;
+                    case "level":
+                        $condition .= "AND level = ?";
+                        $types.= "i";
+                        $params[$index] = $value;
+                        break;
+                    case "destination": $index--;
+                        break;
+                }
+                $index++;
             }
         }
-    }
     $condition .= $orderby && $direction ? "ORDER BY $orderby $direction" : "";
     return $condition;
 }
@@ -283,26 +265,23 @@ function filters_handler($filters,$orderby=false,$direction=false){
 
 function search_items($resultColumn,$table,$columnMatch,$search,$orderby,$direction,$filters=false){
     $con = database_connection();
-    $query = "SELECT $resultColumn FROM $table WHERE active and MATCH(";
-    $query.= array_pop($columnMatch);
+    $params = [];
+    $text = "SELECT $resultColumn FROM $table WHERE active = ? AND MATCH(";
+    $params[0]= intval(true);
+    $types="i";
+    $text .= array_pop($columnMatch);
     foreach ($columnMatch as $column)
-        $query .= ", $column";
-    $query .= ") AGAINST('+$search' IN NATURAL LANGUAGE MODE)";
-
+        $text .= ", $column";
+    $text .= ") AGAINST('+$search' IN NATURAL LANGUAGE MODE)";
     if($filters !== false)
-        $condition = $orderby !== false && $direction !== false  ? filters_handler($filters,$orderby,$direction)
-            : filters_handler($filters);
+        $condition = $orderby !== false && $direction !== false  ? filters_handler($filters,$types,$params,$orderby,$direction)
+            : filters_handler($filters,$types,$params);
     else $condition = $orderby !== false && $direction !== false ? "ORDER BY $orderby $direction" : "";
-    $query .= " $condition ;";
-
-
-
-    $res = send_query($con,$query);
-    $array = array();
-    while($row = mysqli_fetch_assoc($res)){
-        array_push($array, $row);
+    $text .= " $condition ";
+    $stmt_res = send_query($con,$text,$types,$params);
+    $my_results = [];
+    while($row = $stmt_res->fetch_assoc()){
+        array_push($my_results, $row);
     }
-    mysqli_close($con);
-    return  $array;
-
+    return $my_results;
 }
