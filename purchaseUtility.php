@@ -75,7 +75,6 @@ function insertUserPurchases($username,$hashMapOfItems){ //<key = code, value = 
     foreach ($hashMapOfItems as $key => $value) {
         error_log("inserting values: $username, $key, $value");
         if(in_array($key,getUserPurchases($username))){
-            error_log("already set, adding $value purchase to database");
             setPurchasesQuantity($username,$key,getPurchasesQuantity($username,$key)+$value);
         }
         else{

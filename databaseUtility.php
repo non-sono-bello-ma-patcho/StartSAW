@@ -51,8 +51,8 @@ function error_report($text){
 
 function send_query($con,$text,$types = false,$params = false,$queryType = "select"){
     if($stmt = $con->prepare($text)){
-        if($types !== false && $params !== false)
-            $stmt->bind_param($types,$params);
+        if($types && $params)
+            $stmt->bind_param($types,...$params);
         $stmt->execute();
         $stmt_result= $stmt->get_result();
         //if($stmt_result === false)
@@ -78,7 +78,7 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
     //$params = array();
     $types="";
     $condition = generate_condition($columnKey,$key,$params,$types);
-    $text = "SELECT $column FROM $table WHERE $condition";
+    $text = "SELECT $column FROM $table WHERE $condition ";
     $stmt_result = send_query($con,$text,$types,$params);
     $row = $stmt_result->fetch_assoc();
     return $entireRow? $row : $row[$column];
