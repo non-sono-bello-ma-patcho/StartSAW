@@ -26,7 +26,7 @@ function generate_condition($column , $key, &$params,&$types){
     $keyIndex = 0;
     if(is_array($column) && is_array($key)){
         foreach($column as $singleColumn) {
-            $condition .=  "$singleColumn = ? AND";
+            $condition .=  "$singleColumn = ? AND ";
             $params[$index] = $key[$keyIndex];
             $types.= is_numeric($key[$keyIndex])? "i" : "s";
             $index++;
@@ -55,8 +55,8 @@ function error_report($text){
 
 function send_query($con,$text,$types = false,$params = false,$queryType = "select"){
     if($stmt = $con->prepare($text)){
-        if($types !== false && $params !== false)
-            $stmt->bind_param($types,$params);
+        if($types && $params)
+            $stmt->bind_param($types,...$params);
         $stmt->execute();
         $stmt_result= $stmt->get_result();
         if($stmt_result === false)
@@ -82,7 +82,7 @@ function get_information($table, $column, $columnKey, $key, $entireRow=false){
     //$params = array();
     $types="";
     $condition = generate_condition($columnKey,$key,$params,$types);
-    $text = "SELECT $column FROM $table WHERE $condition";
+    $text = "SELECT $column FROM $table WHERE $condition ";
     $stmt_result = send_query($con,$text,$types,$params);
     //call_user_func_array(array($stmt, 'bind_param'), $params);
     $row = $stmt_result->fetch_assoc();
